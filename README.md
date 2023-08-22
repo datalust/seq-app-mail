@@ -1,6 +1,8 @@
 # Seq output apps for SMTP and Microsoft365
 
-A suite of updated HTML email apps for Seq, supporting various authentication methods.
+> :warning: **Important:** these apps are under development and not yet suitable for deployment.
+
+A suite of updated HTML email apps for Seq, supporting various authentication methods and mail services.
 
 ## Escaping of text inserted into HTML documents
 
@@ -18,3 +20,4 @@ seqcli tail --json | ./RunLocalSmtp.ps1
 ```
 
 This assumes you're running an SMTP server such as Papercut on your local machine at port 25.
+~~~~
