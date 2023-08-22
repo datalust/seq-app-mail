@@ -20,4 +20,3 @@ seqcli tail --json | ./RunLocalSmtp.ps1
 ```
 
 This assumes you're running an SMTP server such as Papercut on your local machine at port 25.
-~~~~
