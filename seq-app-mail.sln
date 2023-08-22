@@ -16,6 +16,7 @@ ProjectSection(SolutionItems) = preProject
 	global.json = global.json
 	LICENSE = LICENSE
 	README.md = README.md
+	RunLocalSmtp.ps1 = RunLocalSmtp.ps1
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{AC60371C-2888-45BB-9770-2A690DEA80FA}"
