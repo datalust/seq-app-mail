@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MimeKit;
@@ -13,7 +12,7 @@ namespace Seq.Mail
 {
     public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
     {
-        const string DefaultSubjectTemplate = @"[{@l}] {@m} (via Seq)";
+        const string DefaultSubjectTemplate = "[{@l}] {@m} (via Seq)";
 
         MailMessageFactory? _mailMessageFactory;
 
@@ -24,6 +23,7 @@ namespace Seq.Mail
 
         [SeqAppSetting(
             DisplayName = "To address",
+            Syntax = "template",
             HelpText = "The address to send email to. Multiple addresses are separated by " +
                        "commas or semicolons. Template syntax is supported.")]
         public string? To { get; set; }
@@ -44,6 +44,7 @@ namespace Seq.Mail
         [SeqAppSetting(
             InputType = SettingInputType.Checkbox,
             IsOptional = true,
+            Syntax = "template",
             DisplayName = "Body is plain text",
             HelpText = "Treat the request body (above) as plain text. The default is to assume " +
                        "that the body is HTML and to escape string content appropriately.")]

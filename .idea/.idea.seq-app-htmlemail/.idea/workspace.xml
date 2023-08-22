@@ -9,9 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="faedb823-eee5-44a2-a4dc-a3560eb2b9f5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.seq-app-htmlemail/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.seq-app-htmlemail/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365Options.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365Options.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Seq.App.Mail.Microsoft365.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Seq.App.Mail.Microsoft365.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.Mail/MailApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.Mail/MailApp.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +100,7 @@
       <workItem from="1691813936739" duration="2081000" />
       <workItem from="1691819780370" duration="1965000" />
       <workItem from="1692321138854" duration="865000" />
-      <workItem from="1692670589262" duration="19522000" />
+      <workItem from="1692670589262" duration="20620000" />
     </task>
     <servers />
   </component>
