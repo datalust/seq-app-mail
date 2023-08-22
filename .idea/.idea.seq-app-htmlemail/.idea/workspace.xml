@@ -9,8 +9,9 @@
   <component name="ChangeListManager">
     <list default="true" id="faedb823-eee5-44a2-a4dc-a3560eb2b9f5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.seq-app-htmlemail/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.seq-app-htmlemail/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seq-app-mail.sln" beforeDir="false" afterPath="$PROJECT_DIR$/seq-app-mail.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365Options.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365Options.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Seq.App.Mail.Microsoft365.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Seq.App.Mail.Microsoft365.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f5985edb7d534052bd173ae304079d242c00/87/aeb12da6/Host.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/20ff62b4f42ad56276e3389fa8e32fdbb06a68bac4dbf1927190de68a5a6/EmailAddress.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e67c911eece4906771a85daf3868cb83a16edb87b583b739c3d74468fb1fa9be/SendMailPostRequestBody.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Seq.Mail/Templates/Encoding/EncodedTemplateFactory.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -98,7 +102,7 @@
       <workItem from="1691813936739" duration="2081000" />
       <workItem from="1691819780370" duration="1965000" />
       <workItem from="1692321138854" duration="865000" />
-      <workItem from="1692670589262" duration="15775000" />
+      <workItem from="1692670589262" duration="19522000" />
     </task>
     <servers />
   </component>
