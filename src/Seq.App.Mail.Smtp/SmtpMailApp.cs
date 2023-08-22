@@ -1,9 +1,13 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 using Seq.Apps;
 using Seq.Mail;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global, UnusedType.Global
 
 namespace Seq.App.Mail.Smtp
 {
@@ -11,6 +15,8 @@ namespace Seq.App.Mail.Smtp
         Description = "Send events and notifications by email, using SMTP with username/password authentication.")]
     public class SmtpMailApp: MailApp
     {
+        SmtpOptions? _options;
+        
         [SeqAppSetting(
             HelpText = "The DNS name of the SMTP server.")]
         public new string? Host { get; set; }
@@ -38,11 +44,41 @@ namespace Seq.App.Mail.Smtp
             InputType = SettingInputType.Password,
             HelpText = "The password to use when authenticating to the SMTP server, if required.")]
         public string? Password { get; set; }
-        
+
+        protected override void OnAttached()
+        {
+            if (string.IsNullOrEmpty(Host))
+                throw new ArgumentException("The `Host` setting is required.");
+            
+            base.OnAttached();
+
+            var port = Port ?? 25;
+
+            var socketOptions = ProtocolSecurity switch
+            {
+                ProtocolSecurity.RequireTls => port == 465 ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTls,
+                ProtocolSecurity.RequireStartTls => SecureSocketOptions.StartTls,
+                ProtocolSecurity.RequireImplicitTls => SecureSocketOptions.SslOnConnect,
+                ProtocolSecurity.None => SecureSocketOptions.None,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            _options = new SmtpOptions(
+                Host,
+                port,
+                socketOptions,
+                Username,
+                Password);
+        }
+
         protected override async Task SendAsync(MimeMessage message, CancellationToken cancel)
         {
-            using var client = new SmtpClient();
-            
+            using var client = new SmtpClient();             
+            await client.ConnectAsync(_options!.Host, _options.Port, _options.SocketOptions, cancel);
+            if (_options.RequiresAuthentication)
+                await client.AuthenticateAsync(_options.Username, _options.Password, cancel);
+            await client.SendAsync(message, cancel);
+            await client.DisconnectAsync(true, cancel);
         }
     }
 }

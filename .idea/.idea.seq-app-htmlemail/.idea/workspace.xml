@@ -8,11 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faedb823-eee5-44a2-a4dc-a3560eb2b9f5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Seq.App.Mail.Microsoft365.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Smtp/Seq.App.Mail.Smtp.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Seq.Mail/Seq.Mail.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Seq.Mail.Tests/Seq.Mail.Tests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.seq-app-htmlemail/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.seq-app-htmlemail/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Microsoft365/Microsoft365MailApp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.App.Mail.Smtp/SmtpMailApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.App.Mail.Smtp/SmtpMailApp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.Mail/Functions/MailAppBuiltInFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.Mail/Functions/MailAppBuiltInFunctions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.Mail/MailApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.Mail/MailApp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.Mail/Resources/DefaultBodyTemplate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.Mail/Resources/DefaultBodyTemplate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Seq.Mail/Seq.Mail.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seq.Mail/Seq.Mail.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,13 +25,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1d06801b1ae248eb9c095f907b5043c5d3c00/17/008f42a7/IMailTransport.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1d06801b1ae248eb9c095f907b5043c5d3c00/4a/ec23aa4a/SmtpClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1d06801b1ae248eb9c095f907b5043c5d3c00/68/622c9187/ISmtpClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1d06801b1ae248eb9c095f907b5043c5d3c00/71/406e552b/IMailService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1d06801b1ae248eb9c095f907b5043c5d3c00/d2/d80f2ad6/SecureSocketOptions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1d06801b1ae248eb9c095f907b5043c5d3c00/d9/939caa52/MailTransport.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f25ac30fe882430dacdacbeb42b66276120000/d0/c9840b17/FormatOptions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f5985edb7d534052bd173ae304079d242c00/87/aeb12da6/Host.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Seq.Mail/Templates/Encoding/EncodedTemplateFactory.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -71,7 +67,7 @@
     ]
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected=".NET Project.Seq.Mail.Tests">
     <configuration name="Seq.Mail.Tests" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -106,7 +102,7 @@
       <workItem from="1691813936739" duration="2081000" />
       <workItem from="1691819780370" duration="1965000" />
       <workItem from="1692321138854" duration="865000" />
-      <workItem from="1692670589262" duration="8969000" />
+      <workItem from="1692670589262" duration="14244000" />
     </task>
     <servers />
   </component>

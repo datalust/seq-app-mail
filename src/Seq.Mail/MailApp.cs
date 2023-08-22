@@ -82,9 +82,9 @@ namespace Seq.Mail
             await SendAsync(message, default);
         }
         
-        static string LoadDefaultBodyTemplate()
+        internal static string LoadDefaultBodyTemplate()
         {
-            var resourceStream = typeof(MailApp).Assembly.GetManifestResourceStream("Resources/DefaultBodyTemplate")!;
+            var resourceStream = typeof(MailApp).Assembly.GetManifestResourceStream("DefaultBodyTemplate")!;
             return new StreamReader(resourceStream, System.Text.Encoding.UTF8).ReadToEnd();
         }
     }
