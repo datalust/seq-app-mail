@@ -5,68 +5,68 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#222;background-color:#fff;width:100%;" >
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#222;background-color:#fff;width:100%;">
     <tr>
     {#if @l = 'Fatal'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;margin:0;background-color:#222;" >
+        <td style="text-align:left;color:#fff;padding: 20px;margin:0;background-color:#222;">
     {#end}
     {#if @l = 'Critical'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;margin:0;background-color:#222;" >
+        <td style="text-align:left;color:#fff;padding: 20px;margin:0;background-color:#222;">
     {#end}
     {#if @l = 'Error'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;margin:0;background-color:#921b3c;" >
+        <td style="text-align:left;color:#fff;padding: 20px;margin:0;background-color:#921b3c;">
     {#end}
     {#if @l = 'Warning'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px; background-color:#ffb748;" >
+        <td style="text-align:left;color:#fff;padding: 20px;background-color:#ffb748;">
     {#end}
     {#if @l = 'Information'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;background-color:#016DA9;" >
+        <td style="text-align:left;color:#fff;padding: 20px;background-color:#016DA9;">
     {#end}
     {#if @l = 'Debug'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;background-color:#777;" >
+        <td style="text-align:left;color:#fff;padding: 20px;background-color:#777;">
     {#end}
     {#if @l = 'Trace'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;background-color:#777;" >
+        <td style="text-align:left;color:#fff;padding: 20px;background-color:#777;">
     {#end}
     {#if @l = 'Verbose'}
-        <td style="text-align:left;color:#fff;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;background-color:#777;" >
+        <td style="text-align:left;color:#fff;padding: 20px;background-color:#777;">
     {#end}
             <div style="font-size:28px;line-height:20px;font-weight:bold;">{@l}</div>
-            <div title="{ToString(InTimeZone(@t, @app.Settings.TimeZoneName),  @app.Settings.DateTimeFormat)}">{ToString(InTimeZone(@t, @app.Settings.TimeZoneName),  @app.Settings.DateTimeFormat)}</div>
+            <div>{ToString(InTimeZone(@t, @settings.TimeZoneName),  @settings.DateTimeFormat)}</div>
         </td>
     </tr>
     <tr>
     {#if @i = 0xA1E77001}
-        <td style="text-align:left;padding-top:40px;padding-bottom:20px;padding-right:20px;padding-left:20px;" >
-            <div style="font-weight:bold;" >Alert condition triggered by
-                <a href="{Alert.Url}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;" >{NamespacedAlertTitle}</a>
+        <td style="text-align:left;padding: 40px 20px 20px;">
+            <div style="font-weight:bold;">Alert condition triggered by
+                <a href="{Alert.Url}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;">{NamespacedAlertTitle}</a>
             </div>
         {#if Source.Results is not null}
             <div style="margin-top:40px;">
                 <div style="font-weight:bold;">Results</div>
                 <table cellpadding="o" cellspacing="0" style="border-collapse:collapse;font-family:monospace;">
-                    {#each row in Source.Results}
-                    {#if first}
-                    <tr>
-                        {#each col in row}
-                        <th scope="col" style="font-weight:bold;text-align:left;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;border:1px solid #ddd;padding:5px">{col}</th>
-                        {#end}
-                    </tr>
-                    {#else}
-                    <tr>
-                        {#each col in row}
-                        {#if first}
-                        <td style="text-align:left;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;border:1px solid #ddd;padding:5px">{ToString(InTimeZone(col, @app.Settings.TimeZoneName), @app.Settings.DateTimeFormat)}</td>
+                    {#each row, i in Source.Results}
+                        {#if i = 0}
+                            <tr>
+                                {#each col in row}
+                                    <th scope="col" style="font-weight:bold;text-align:left;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;border:1px solid #ddd;padding:5px">{col}</th>
+                                {#end}
+                            </tr>
                         {#else}
-                        <td style="text-align:left;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;border:1px solid #ddd;padding:5px">{col}</td>
+                            <tr>
+                                {#each col, j in row}
+                                    {#if j = 0}
+                                        <td style="text-align:left;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;border:1px solid #ddd;padding:5px">{ToString(InTimeZone(col, @settings.TimeZoneName), @settings.DateTimeFormat)}</td>
+                                    {#else}
+                                        <td style="text-align:left;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;border:1px solid #ddd;padding:5px">{col}</td>
+                                    {#end}
+                                {#end}
+                            </tr>
                         {#end}
-                        {#end}
-                    </tr>
-                    {#end}
                     {#end}
                 </table>
-                <div style="font-size:12px;margin-top:10px;" >
-                    <a href="{Source.ResultsUrl}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;" >Explore detected results in Seq</a>
+                <div style="font-size:12px;margin-top:10px;">
+                    <a href="{Source.ResultsUrl}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;">Explore detected results in Seq</a>
                 </div>
             </div>
         {#end}
@@ -74,16 +74,16 @@
             <div style="margin-top:40px;">
                 <div style="font-weight:bold;">Contributing events</div>
                 <table cellpadding="o" cellspacing="0" border="0" style="border-collapse:collapse;font-family:monospace;">
-                    {#each row in Source.ContributingEvents}
-                    {#if first}
-                    {#else}
-                    <tr>
-                        <th scope="row" style="text-align:left;font-weight:bold;white-space:nowrap;">{ToString(InTimeZone(row[1], @app.Settings.TimeZoneName), @app.Settings.DateTimeFormat)}</th>
-                        <td style="text-align:left;padding-left:20px;">
-                            <a href="{@app.Host.Uri}#/events?filter=@Id%20%3D%20'{row[0]}'&amp;show=expanded" style="color:#356dba;text-decoration:none;border-bottom:2px solid;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;" >{row[2]}</a>
-                        </td>
-                    </tr>
-                    {#end}
+                    {#each row, i in Source.ContributingEvents}
+                        {#if i = 0}
+                        {#else}
+                            <tr>
+                                <th scope="row" style="text-align:left;font-weight:bold;white-space:nowrap;">{ToString(InTimeZone(row[1], @settings.TimeZoneName), @settings.DateTimeFormat)}</th>
+                                <td style="text-align:left;padding-left:20px;">
+                                    <a href="{@host.BaseUri}#/events?filter=@Id%20%3D%20'{row[0]}'" style="color:#356dba;text-decoration:none;border-bottom:2px solid;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;">{row[2]}</a>
+                                </td>
+                            </tr>
+                        {#end}
                     {#end}
                 </table>
             </div>
@@ -91,28 +91,40 @@
         {#if Failures is not null}
             <div style="margin-top:20px;font-family:monospace;font-weight:bold;">Alert processing failed</div>
             {#each f in Failures}
-            <div style="overflow:hidden;font-family:monospace;white-space:pre;white-space:pre-wrap;">{f}</div>
+                <div style="overflow:hidden;font-family:monospace;white-space:pre;white-space:pre-wrap;">{f}</div>
             {#end}
         {#end}
         </td>
     {#else}
-        <td style="text-align:left;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;" >
-            <div style="font-weight:bold;" >{@m}</div>
-            <div style="font-size:12px;margin-top:20px;" >
-                <a href="{@app.Host.Uri}#/events?filter=@Id%20%3D%20'{@seqid}'&amp;show=expanded" style="color:#356dba;text-decoration:none;border-bottom:2px solid;" >View this event in Seq</a>
+        <td style="text-align:left;padding: 20px;">
+            <div style="font-weight:bold;">{@m}</div>
+            <div style="font-size:12px;margin-top:20px;">
+                <a href="{@host.BaseUri}#/events?filter=@Id%20%3D%20'{@seqid}'" style="color:#356dba;text-decoration:none;border-bottom:2px solid;">View this event in Seq</a>
             </div>
-            <div style="margin-top:20px;" >
+            <div style="margin-top:20px;">
                 {#each n, v in @p}
-                <div style="margin-top:10px;" >
-                    <div title="{n}" style="font-family:monospace;font-weight:bold;">{n}</div>
-                    <div style="font-family:monospace;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;" >{v}</div>
-                </div>
+                    {#if n = '@ra'}
+                        <!-- @ra value is {v} -->
+                        {#each rn, rv in v}
+                            <div style="margin-top:10px;">
+                                <div style="font-family:monospace;font-weight:bold;">{rn}</div>
+                                <div style="font-family:monospace;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;">{rv}</div>
+                            </div>
+                        {#end}
+                    {#else if n in ['@seqid', '@i', '@tr', '@sp']}
+                        <!-- property {n} ignored -->
+                    {#else}
+                        <div style="margin-top:10px;">
+                            <div style="font-family:monospace;font-weight:bold;">{n}</div>
+                            <div style="font-family:monospace;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;">{v}</div>
+                        </div>
+                    {#end}
                 {#end}
                 {#if @x is not null}
-                <div style="margin-top:10px;" >
-                    <div style="font-family:monospace;font-weight:bold;" >Exception</div>
-                    <div style="overflow:hidden;font-family:monospace;white-space:pre;white-space:pre-wrap;" >{@x}</div>
-                </div>
+                    <div style="margin-top:10px;">
+                        <div style="font-family:monospace;font-weight:bold;">Exception</div>
+                        <div style="overflow:hidden;font-family:monospace;white-space:pre;white-space:pre-wrap;">{@x}</div>
+                    </div>
                 {#end}
             </div>
         </td>
@@ -120,8 +132,8 @@
 </tr>
 <tr>
     <td>
-        <div style="margin-top:20px;text-align:left;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;font-size:12px;background-color:#f0f0f0;">
-            Sent by Seq installed at <a href="{@app.Host.Uri}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;" >{@app.Host.Uri}</a>.
+        <div style="margin-top:20px;text-align:left;padding: 20px;font-size:12px;background-color:#f0f0f0;">
+            Sent by Seq installed at <a href="{@host.BaseUri}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;">{@host.BaseUri}</a>.
         </div>
     </td>
 </tr>

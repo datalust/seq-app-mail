@@ -1,5 +1,5 @@
-﻿using Seq.Mail.Expressions;
-using Seq.Mail.Functions;
+﻿using Seq.Mail.BuiltIns;
+using Seq.Mail.Expressions;
 using Seq.Mail.Templates;
 using Xunit;
 

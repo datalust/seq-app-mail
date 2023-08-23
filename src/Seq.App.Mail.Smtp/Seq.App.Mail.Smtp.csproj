@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Description>Send events and notifications from Seq via SMTP mail.</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Datalust, Serilog Contributors</Authors>
+    <PackageTags>seq-app smtp email</PackageTags>
+    <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>
+    <PackageIcon>seq-app-mail.png</PackageIcon>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/datalust/seq-app-mail</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,8 +19,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="All" />
     <PackageReference Include="Seq.Apps" Version="2021.4.0" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <None Include="../../asset/seq-app-mail.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="./obj/publish/**/*" Exclude="./obj/publish/$(MSBuildProjectName).dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
+  </ItemGroup>
+  
 </Project>

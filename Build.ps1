@@ -18,10 +18,12 @@ $suffix = @{ $true = ""; $false = "$($branch.Substring(0, [math]::Min(10,$branch
 
 echo "build: Version suffix is $suffix"
 
-foreach ($src in ls src/*) {
+foreach ($src in ls src/Seq.App.*) {
     Push-Location $src
 
     echo "build: Packaging project in $src"
+
+    rm -Recurse -Force ./obj/publish
 
     if ($suffix) {
         & dotnet publish -c Release -o ./obj/publish --version-suffix=$suffix

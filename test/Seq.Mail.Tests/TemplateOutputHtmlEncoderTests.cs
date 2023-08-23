@@ -8,7 +8,7 @@ namespace Seq.Mail.Tests
         [Theory]
         [InlineData("", "")]
         [InlineData("test", "test")]
-        [InlineData("&test\"<data>'", "&amp;test&quot;&lt;data&gt;&#37;")]
+        [InlineData("&test\"<data>'", "&amp;test&quot;&lt;data&gt;&#x27;")]
         public void OutputIsHtmlEncoded(string raw, string encoded)
         {
             var encoder = new TemplateOutputHtmlEncoder();

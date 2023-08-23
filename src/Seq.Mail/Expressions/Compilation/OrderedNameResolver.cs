@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using Seq.Mail.Expressions.Ast;
 
 namespace Seq.Mail.Expressions.Compilation
 {
@@ -49,6 +50,30 @@ namespace Seq.Mail.Expressions.Compilation
             }
 
             boundValue = null;
+            return false;
+        }
+        
+        public override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out string? target)
+        {
+            foreach (var resolver in _orderedResolvers)
+            {
+                if (resolver.TryResolveBuiltInPropertyName(alias, out target))
+                    return true;
+            }
+
+            target = null;
+            return false;
+        }
+
+        internal override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out Expression? target)
+        {
+            foreach (var resolver in _orderedResolvers)
+            {
+                if (resolver.TryResolveBuiltInPropertyName(alias, out target))
+                    return true;
+            }
+
+            target = null;
             return false;
         }
     }

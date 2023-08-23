@@ -4,7 +4,7 @@ using Seq.Mail.Expressions.Runtime;
 using Seq.Mail.TimeZones;
 using Serilog.Events;
 
-namespace Seq.Mail.Functions
+namespace Seq.Mail.BuiltIns
 {
     public static class MailAppBuiltInFunctions
     {

@@ -79,7 +79,7 @@ namespace Seq.Mail.Templates.Compilation.NameResolution
                 locals.Pop();
 
             return new Repetition(
-                rep.Enumerable,
+                ExpressionLocalNameBinder.BindLocalValueNames(rep.Enumerable, locals),
                 rep.BindingNames,
                 body,
                 rep.Delimiter != null ? Transform(rep.Delimiter, locals) : null,

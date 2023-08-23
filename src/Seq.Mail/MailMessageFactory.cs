@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using MimeKit;
 using MimeKit.Text;
+using Seq.Apps;
+using Seq.Mail.BuiltIns;
 using Seq.Mail.Encoding;
 using Seq.Mail.Expressions;
-using Seq.Mail.Functions;
+using Seq.Mail.Expressions.Compilation;
 using Seq.Mail.Templates;
 using Seq.Mail.Templates.Encoding;
 using Serilog.Events;
@@ -29,18 +31,31 @@ namespace Seq.Mail
             IEnumerable<string> toTemplates,
             string subjectTemplate,
             string bodyTemplate,
-            bool bodyIsPlainText)
+            bool bodyIsPlainText,
+            string timeZoneName,
+            string dateFormat,
+            App app,
+            Host host)
         {
+            var builtInNameResolver = new MailAppNameResolver(timeZoneName, dateFormat, app, host);
+            
             _from = from;
-            _to = toTemplates.Select(to => CompileTemplate(to)).ToArray();
+            _to = toTemplates.Select(to => CompileTemplate(to, builtInNameResolver)).ToArray();
             _bodyIsPlainText = bodyIsPlainText;
-            _subject = CompileTemplate(subjectTemplate);
-            _body = CompileTemplate(bodyTemplate, encoder: bodyIsPlainText? new TemplateOutputHtmlEncoder() : null);
+            _subject = CompileTemplate(subjectTemplate, builtInNameResolver);
+            _body = CompileTemplate(bodyTemplate, builtInNameResolver, encoder: bodyIsPlainText? new TemplateOutputHtmlEncoder() : null);
         }
 
-        static ExpressionTemplate CompileTemplate(string template, TemplateOutputEncoder? encoder = null)
+        static ExpressionTemplate CompileTemplate(string template, NameResolver builtInNameResolver, TemplateOutputEncoder? encoder = null)
         {
-            return new ExpressionTemplate(template, nameResolver: new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)), encoder: encoder);
+            return new ExpressionTemplate(
+                template,
+                nameResolver: new OrderedNameResolver(new[]
+                {
+                    new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)),
+                    builtInNameResolver                     
+                }),
+                encoder: encoder);
         }
 
         public MimeMessage FromEvent(LogEvent evt)

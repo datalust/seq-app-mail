@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MimeKit;
 using Seq.Apps;
+using Seq.Mail.TimeZones;
 using Serilog.Events;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global, MemberCanBePrivate.Global
@@ -72,7 +73,11 @@ namespace Seq.Mail
                     .Split(',', ';'),
                 Subject ?? DefaultSubjectTemplate,
                 Body ?? LoadDefaultBodyTemplate(),
-                BodyIsPlainText);
+                BodyIsPlainText,
+                TimeZoneName ?? PortableTimeZoneInfo.UtcTimeZoneName,
+                DateTimeFormat ?? "o",
+                this.App,
+                this.Host);
         }
 
         protected abstract Task SendAsync(MimeMessage message, CancellationToken cancel);

@@ -54,28 +54,31 @@ namespace Seq.Mail.Templates.Compilation
                 return;
             }
 
-            if (enumerable is SequenceValue sv)
+            if (enumerable is SequenceValue sequence)
             {
-                if (sv.Elements.Count == 0)
+                if (sequence.Elements.Count == 0)
                 {
                     _alternative?.Evaluate(ctx, output);
                     return;
                 }
 
-                var first = true;
-                foreach (var element in sv.Elements)
+                for (var i = 0; i < sequence.Elements.Count; ++i)
                 {
-                    if (element == null)
-                        continue; // Should have been invalid but Serilog didn't check and so this does occur in the wild.
+                    // Null elements should have been invalid but Serilog didn't check, and so this does occur in the wild.
+                    var element = sequence.Elements[i] ?? new ScalarValue(null);
 
-                    if (first)
-                        first = false;
-                    else
+                    if (i != 0)
+                    {
                         _delimiter?.Evaluate(ctx, output);
+                    }
 
                     var local = _keyOrElementName != null
                         ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element))
                         : ctx;
+
+                    local = _valueName != null
+                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueName, new ScalarValue(i)))
+                        : local;
 
                     _body.Evaluate(local, output);
                 }
