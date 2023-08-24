@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Seq.Mail.Expressions.Ast
+namespace Seq.Mail.Expressions.Ast;
+
+abstract class Member
 {
-    abstract class Member
-    {
-    }
 }

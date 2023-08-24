@@ -2,25 +2,24 @@
 using Seq.Mail.Expressions;
 using Seq.Mail.Templates.Compilation;
 
-namespace Seq.Mail.Templates.Encoding
+namespace Seq.Mail.Templates.Encoding;
+
+class EncodedCompiledTemplate : CompiledTemplate
 {
-    class EncodedCompiledTemplate : CompiledTemplate
+    readonly CompiledTemplate _inner;
+    readonly TemplateOutputEncoder _encoder;
+
+    public EncodedCompiledTemplate(CompiledTemplate inner, TemplateOutputEncoder encoder)
     {
-        readonly CompiledTemplate _inner;
-        readonly TemplateOutputEncoder _encoder;
+        _inner = inner;
+        _encoder = encoder;
+    }
 
-        public EncodedCompiledTemplate(CompiledTemplate inner, TemplateOutputEncoder encoder)
-        {
-            _inner = inner;
-            _encoder = encoder;
-        }
-
-        public override void Evaluate(EvaluationContext ctx, TextWriter output)
-        {
-            var buffer = new StringWriter(output.FormatProvider);
-            _inner.Evaluate(ctx, buffer);
-            var encoded = _encoder.Encode(buffer.ToString());
-            output.Write(encoded);
-        }
+    public override void Evaluate(EvaluationContext ctx, TextWriter output)
+    {
+        var buffer = new StringWriter(output.FormatProvider);
+        _inner.Evaluate(ctx, buffer);
+        var encoded = _encoder.Encode(buffer.ToString());
+        output.Write(encoded);
     }
 }

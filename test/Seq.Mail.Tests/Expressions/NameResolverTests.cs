@@ -6,69 +6,68 @@ using Seq.Mail.Tests.Support;
 using Serilog.Events;
 using Xunit;
 
-namespace Seq.Mail.Tests.Expressions
+namespace Seq.Mail.Tests.Expressions;
+
+public class NameResolverTests
 {
-    public class NameResolverTests
+    public static LogEventPropertyValue? Magic(LogEventPropertyValue? number)
     {
-        public static LogEventPropertyValue? Magic(LogEventPropertyValue? number)
-        {
-            if (!Coerce.Numeric(number, out var num))
-                return null;
+        if (!Coerce.Numeric(number, out var num))
+            return null;
 
-            return new ScalarValue(num + 42);
+        return new ScalarValue(num + 42);
+    }
+
+    public static LogEventPropertyValue? SecretWordAt(string word, LogEventPropertyValue? index)
+    {
+        if (!Coerce.Numeric(index, out var i))
+            return null;
+
+        return new ScalarValue(word[(int)i].ToString());
+    }
+
+    class SecretWordResolver : NameResolver
+    {
+        readonly NameResolver _inner;
+        readonly string _word;
+
+        public SecretWordResolver(NameResolver inner, string word)
+        {
+            _inner = inner;
+            _word = word;
         }
 
-        public static LogEventPropertyValue? SecretWordAt(string word, LogEventPropertyValue? index)
+        public override bool TryResolveFunctionName(string name, [MaybeNullWhen(false)] out MethodInfo implementation)
+            => _inner.TryResolveFunctionName(name, out implementation);
+
+        public override bool TryBindFunctionParameter(ParameterInfo parameter, [MaybeNullWhen(false)] out object boundValue)
         {
-            if (!Coerce.Numeric(index, out var i))
-                return null;
-
-            return new ScalarValue(word[(int)i].ToString());
-        }
-
-        class SecretWordResolver : NameResolver
-        {
-            readonly NameResolver _inner;
-            readonly string _word;
-
-            public SecretWordResolver(NameResolver inner, string word)
+            if (parameter.ParameterType == typeof(string))
             {
-                _inner = inner;
-                _word = word;
+                boundValue = _word;
+                return true;
             }
 
-            public override bool TryResolveFunctionName(string name, [MaybeNullWhen(false)] out MethodInfo implementation)
-                => _inner.TryResolveFunctionName(name, out implementation);
-
-            public override bool TryBindFunctionParameter(ParameterInfo parameter, [MaybeNullWhen(false)] out object boundValue)
-            {
-                if (parameter.ParameterType == typeof(string))
-                {
-                    boundValue = _word;
-                    return true;
-                }
-
-                boundValue = null;
-                return false;
-            }
+            boundValue = null;
+            return false;
         }
+    }
 
-        [Fact]
-        public void UserDefinedFunctionsAreCallableInExpressions()
-        {
-            var expr = SerilogExpression.Compile(
-                "magic(10) + 3 = 55",
-                nameResolver: new StaticMemberNameResolver(typeof(NameResolverTests)));
-            Assert.True(Coerce.IsTrue(expr(Some.InformationEvent())));
-        }
+    [Fact]
+    public void UserDefinedFunctionsAreCallableInExpressions()
+    {
+        var expr = SerilogExpression.Compile(
+            "magic(10) + 3 = 55",
+            nameResolver: new StaticMemberNameResolver(typeof(NameResolverTests)));
+        Assert.True(Coerce.IsTrue(expr(Some.InformationEvent())));
+    }
 
-        [Fact]
-        public void UserDefinedFunctionsCanReceiveUserProvidedParameters()
-        {
-            var expr = SerilogExpression.Compile(
-                "SecretWordAt(1) = 'e'",
-                nameResolver: new SecretWordResolver(new StaticMemberNameResolver(typeof(NameResolverTests)), "hello"));
-            Assert.True(Coerce.IsTrue(expr(Some.InformationEvent())));
-        }
+    [Fact]
+    public void UserDefinedFunctionsCanReceiveUserProvidedParameters()
+    {
+        var expr = SerilogExpression.Compile(
+            "SecretWordAt(1) = 'e'",
+            nameResolver: new SecretWordResolver(new StaticMemberNameResolver(typeof(NameResolverTests)), "hello"));
+        Assert.True(Coerce.IsTrue(expr(Some.InformationEvent())));
     }
 }

@@ -15,30 +15,29 @@
 using Seq.Mail.Expressions.Ast;
 using Seq.Mail.Expressions.Compilation.Transformations;
 
-namespace Seq.Mail.Expressions.Compilation.Properties
+namespace Seq.Mail.Expressions.Compilation.Properties;
+
+class PropertiesObjectAccessorTransformer : IdentityTransformer
 {
-    class PropertiesObjectAccessorTransformer : IdentityTransformer
+    public static Expression Rewrite(Expression actual)
     {
-        public static Expression Rewrite(Expression actual)
-        {
-            return new PropertiesObjectAccessorTransformer().Transform(actual);
-        }
+        return new PropertiesObjectAccessorTransformer().Transform(actual);
+    }
 
-        protected override Expression Transform(AccessorExpression ax)
-        {
-            if (!Pattern.IsAmbientProperty(ax.Receiver, BuiltInProperty.Properties, true))
-                return base.Transform(ax);
+    protected override Expression Transform(AccessorExpression ax)
+    {
+        if (!Pattern.IsAmbientProperty(ax.Receiver, BuiltInProperty.Properties, true))
+            return base.Transform(ax);
 
-            return new AmbientNameExpression(ax.MemberName, false);
-        }
+        return new AmbientNameExpression(ax.MemberName, false);
+    }
 
-        protected override Expression Transform(IndexerExpression ix)
-        {
-            if (!Pattern.IsAmbientProperty(ix.Receiver, BuiltInProperty.Properties, true) ||
-                !Pattern.IsStringConstant(ix.Index, out var name))
-                return base.Transform(ix);
+    protected override Expression Transform(IndexerExpression ix)
+    {
+        if (!Pattern.IsAmbientProperty(ix.Receiver, BuiltInProperty.Properties, true) ||
+            !Pattern.IsStringConstant(ix.Index, out var name))
+            return base.Transform(ix);
 
-            return new AmbientNameExpression(name, false);
-        }
+        return new AmbientNameExpression(name, false);
     }
 }

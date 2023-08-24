@@ -14,15 +14,14 @@
 
 using System;
 
-namespace Seq.Mail.Templates.Ast
-{
-    class TemplateBlock : Template
-    {
-        public Template[] Elements { get; }
+namespace Seq.Mail.Templates.Ast;
 
-        public TemplateBlock(Template[] elements)
-        {
-            Elements = elements ?? throw new ArgumentNullException(nameof(elements));
-        }
+class TemplateBlock : Template
+{
+    public Template[] Elements { get; }
+
+    public TemplateBlock(Template[] elements)
+    {
+        Elements = elements ?? throw new ArgumentNullException(nameof(elements));
     }
 }

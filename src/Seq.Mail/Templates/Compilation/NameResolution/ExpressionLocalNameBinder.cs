@@ -18,29 +18,28 @@ using System.Linq;
 using Seq.Mail.Expressions.Ast;
 using Seq.Mail.Expressions.Compilation.Transformations;
 
-namespace Seq.Mail.Templates.Compilation.NameResolution
+namespace Seq.Mail.Templates.Compilation.NameResolution;
+
+class ExpressionLocalNameBinder : IdentityTransformer
 {
-    class ExpressionLocalNameBinder : IdentityTransformer
+    readonly IReadOnlyCollection<string> _localNames;
+
+    public static Expression BindLocalValueNames(Expression expression, IReadOnlyCollection<string> locals)
     {
-        readonly IReadOnlyCollection<string> _localNames;
+        var expressionLocalNameBinder = new ExpressionLocalNameBinder(locals);
+        return expressionLocalNameBinder.Transform(expression);
+    }
 
-        public static Expression BindLocalValueNames(Expression expression, IReadOnlyCollection<string> locals)
-        {
-            var expressionLocalNameBinder = new ExpressionLocalNameBinder(locals);
-            return expressionLocalNameBinder.Transform(expression);
-        }
+    ExpressionLocalNameBinder(IReadOnlyCollection<string> localNames)
+    {
+        _localNames = localNames ?? throw new ArgumentNullException(nameof(localNames));
+    }
 
-        ExpressionLocalNameBinder(IReadOnlyCollection<string> localNames)
-        {
-            _localNames = localNames ?? throw new ArgumentNullException(nameof(localNames));
-        }
+    protected override Expression Transform(AmbientNameExpression px)
+    {
+        if (!px.IsBuiltIn && _localNames.Contains(px.PropertyName))
+            return new LocalNameExpression(px.PropertyName);
 
-        protected override Expression Transform(AmbientNameExpression px)
-        {
-            if (!px.IsBuiltIn && _localNames.Contains(px.PropertyName))
-                return new LocalNameExpression(px.PropertyName);
-
-            return base.Transform(px);
-        }
+        return base.Transform(px);
     }
 }

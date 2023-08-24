@@ -20,23 +20,22 @@ using Seq.Mail.Templates.Ast;
 using Seq.Mail.Templates.Compilation.UnreferencedProperties;
 using Seq.Mail.Templates.Compilation.Unsafe;
 
-namespace Seq.Mail.Templates.Compilation
+namespace Seq.Mail.Templates.Compilation;
+
+static class TemplateFunctionNameResolver
 {
-    static class TemplateFunctionNameResolver
+    public static NameResolver Build(NameResolver? additionalNameResolver, Template template)
     {
-        public static NameResolver Build(NameResolver? additionalNameResolver, Template template)
+        var resolvers = new List<NameResolver>
         {
-            var resolvers = new List<NameResolver>
-            {
-                new StaticMemberNameResolver(typeof(RuntimeOperators)),
-                new UnreferencedPropertiesFunction(template),
-                new UnsafeOutputFunction()
-            };
+            new StaticMemberNameResolver(typeof(RuntimeOperators)),
+            new UnreferencedPropertiesFunction(template),
+            new UnsafeOutputFunction()
+        };
 
-            if (additionalNameResolver != null)
-                resolvers.Add(additionalNameResolver);
+        if (additionalNameResolver != null)
+            resolvers.Add(additionalNameResolver);
 
-            return new OrderedNameResolver(resolvers);
-        }
+        return new OrderedNameResolver(resolvers);
     }
 }

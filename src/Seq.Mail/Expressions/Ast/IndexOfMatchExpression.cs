@@ -15,22 +15,21 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Seq.Mail.Expressions.Ast
+namespace Seq.Mail.Expressions.Ast;
+
+class IndexOfMatchExpression : Expression
 {
-    class IndexOfMatchExpression : Expression
+    public Expression Corpus { get; }
+    public Regex Regex { get; }
+
+    public IndexOfMatchExpression(Expression corpus, Regex regex)
     {
-        public Expression Corpus { get; }
-        public Regex Regex { get; }
+        Corpus = corpus ?? throw new ArgumentNullException(nameof(corpus));
+        Regex = regex ?? throw new ArgumentNullException(nameof(regex));
+    }
 
-        public IndexOfMatchExpression(Expression corpus, Regex regex)
-        {
-            Corpus = corpus ?? throw new ArgumentNullException(nameof(corpus));
-            Regex = regex ?? throw new ArgumentNullException(nameof(regex));
-        }
-
-        public override string ToString()
-        {
-            return $"_Internal_IndexOfMatch({Corpus}, '{Regex.ToString().Replace("'", "''")}')";
-        }
+    public override string ToString()
+    {
+        return $"_Internal_IndexOfMatch({Corpus}, '{Regex.ToString().Replace("'", "''")}')";
     }
 }

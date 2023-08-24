@@ -14,21 +14,19 @@
 
 using System.Linq;
 
-namespace Seq.Mail.Expressions.Ast
+namespace Seq.Mail.Expressions.Ast;
+
+class ObjectExpression : Expression
 {
-    class ObjectExpression : Expression
+    public ObjectExpression(Member[] members)
     {
-        public ObjectExpression(Member[] members)
-        {
-            Members = members;
-        }
+        Members = members;
+    }
 
-        public Member[] Members { get; }
+    public Member[] Members { get; }
 
-        public override string ToString()
-        {
-            return "{" + string.Join(", ", Members.Select(m => m.ToString())) + "}";
-        }
+    public override string ToString()
+    {
+        return "{" + string.Join(", ", Members.Select(m => m.ToString())) + "}";
     }
 }
-

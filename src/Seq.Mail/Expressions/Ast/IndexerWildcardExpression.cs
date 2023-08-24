@@ -14,28 +14,27 @@
 
 using System;
 
-namespace Seq.Mail.Expressions.Ast
+namespace Seq.Mail.Expressions.Ast;
+
+class IndexerWildcardExpression : Expression
 {
-    class IndexerWildcardExpression : Expression
+    public IndexerWildcardExpression(IndexerWildcard wildcard)
     {
-        public IndexerWildcardExpression(IndexerWildcard wildcard)
-        {
-            Wildcard = wildcard;
-        }
+        Wildcard = wildcard;
+    }
 
-        public IndexerWildcard Wildcard { get; }
+    public IndexerWildcard Wildcard { get; }
 
-        public override string ToString()
+    public override string ToString()
+    {
+        switch (Wildcard)
         {
-            switch (Wildcard)
-            {
-                case IndexerWildcard.Any:
-                    return "?";
-                case IndexerWildcard.All:
-                    return "*";
-                default:
-                    throw new NotSupportedException("Unrecognized wildcard " + Wildcard);
-            }
+            case IndexerWildcard.Any:
+                return "?";
+            case IndexerWildcard.All:
+                return "*";
+            default:
+                throw new NotSupportedException("Unrecognized wildcard " + Wildcard);
         }
     }
 }

@@ -17,36 +17,35 @@ using Seq.Mail.Expressions;
 using Seq.Mail.Templates.Rendering;
 using Serilog.Parsing;
 
-namespace Seq.Mail.Templates.Compilation
+namespace Seq.Mail.Templates.Compilation;
+
+class CompiledLevelToken : CompiledTemplate
 {
-    class CompiledLevelToken : CompiledTemplate
+    readonly string? _format;
+    readonly Alignment? _alignment;
+
+    public CompiledLevelToken(string? format, Alignment? alignment)
     {
-        readonly string? _format;
-        readonly Alignment? _alignment;
+        _format = format;
+        _alignment = alignment;
+    }
 
-        public CompiledLevelToken(string? format, Alignment? alignment)
+    public override void Evaluate(EvaluationContext ctx, TextWriter output)
+    {
+        if (_alignment == null)
         {
-            _format = format;
-            _alignment = alignment;
+            EvaluateUnaligned(ctx, output);
         }
+        else
+        {
+            var writer = new StringWriter();
+            EvaluateUnaligned(ctx, writer);
+            Padding.Apply(output, writer.ToString(), _alignment.Value);
+        }
+    }
 
-        public override void Evaluate(EvaluationContext ctx, TextWriter output)
-        {
-            if (_alignment == null)
-            {
-                EvaluateUnaligned(ctx, output);
-            }
-            else
-            {
-                var writer = new StringWriter();
-                EvaluateUnaligned(ctx, writer);
-                Padding.Apply(output, writer.ToString(), _alignment.Value);
-            }
-        }
-
-        void EvaluateUnaligned(EvaluationContext ctx, TextWriter output)
-        {
-            output.Write(LevelRenderer.GetLevelMoniker(ctx.LogEvent.Level, _format));
-        }
+    void EvaluateUnaligned(EvaluationContext ctx, TextWriter output)
+    {
+        output.Write(LevelRenderer.GetLevelMoniker(ctx.LogEvent.Level, _format));
     }
 }

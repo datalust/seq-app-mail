@@ -15,19 +15,18 @@
 using System;
 using Seq.Mail.Expressions.Ast;
 
-namespace Seq.Mail.Templates.Ast
-{
-    class Conditional : Template
-    {
-        public Expression Condition { get; }
-        public Template Consequent { get; }
-        public Template? Alternative { get; }
+namespace Seq.Mail.Templates.Ast;
 
-        public Conditional(Expression condition, Template consequent, Template? alternative)
-        {
-            Condition = condition ?? throw new ArgumentNullException(nameof(condition));
-            Consequent = consequent ?? throw new ArgumentNullException(nameof(consequent));
-            Alternative = alternative;
-        }
+class Conditional : Template
+{
+    public Expression Condition { get; }
+    public Template Consequent { get; }
+    public Template? Alternative { get; }
+
+    public Conditional(Expression condition, Template consequent, Template? alternative)
+    {
+        Condition = condition ?? throw new ArgumentNullException(nameof(condition));
+        Consequent = consequent ?? throw new ArgumentNullException(nameof(consequent));
+        Alternative = alternative;
     }
 }

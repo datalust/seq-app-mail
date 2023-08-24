@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Seq.Mail.Templates.Ast
+namespace Seq.Mail.Templates.Ast;
+
+abstract class Template
 {
-    abstract class Template
-    {
-    }
 }

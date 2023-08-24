@@ -16,24 +16,23 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Serilog.Events;
 
-namespace Seq.Mail.Expressions.Compilation.Linq
+namespace Seq.Mail.Expressions.Compilation.Linq;
+
+class ExpressionConstantMapper : ExpressionVisitor
 {
-    class ExpressionConstantMapper : ExpressionVisitor
+    readonly IDictionary<object, Expression> _mapping;
+
+    public ExpressionConstantMapper(IDictionary<object, Expression> mapping)
     {
-        readonly IDictionary<object, Expression> _mapping;
+        _mapping = mapping;
+    }
 
-        public ExpressionConstantMapper(IDictionary<object, Expression> mapping)
-        {
-            _mapping = mapping;
-        }
+    protected override Expression VisitConstant(ConstantExpression node)
+    {
+        if (node.Value is ScalarValue sv &&
+            _mapping.TryGetValue(sv.Value, out var substitute))
+            return substitute;
 
-        protected override Expression VisitConstant(ConstantExpression node)
-        {
-            if (node.Value is ScalarValue sv &&
-                _mapping.TryGetValue(sv.Value, out var substitute))
-                return substitute;
-
-            return base.VisitConstant(node);
-        }
+        return base.VisitConstant(node);
     }
 }

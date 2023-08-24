@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Seq.Mail.Expressions.Ast
-{
-    enum IndexerWildcard { Undefined, Any, All }
-}
+namespace Seq.Mail.Expressions.Ast;
+
+enum IndexerWildcard { Undefined, Any, All }

@@ -16,27 +16,26 @@ using System.Diagnostics.CodeAnalysis;
 using Seq.Mail.Expressions.Ast;
 using Serilog.Events;
 
-namespace Seq.Mail.Expressions.Compilation
+namespace Seq.Mail.Expressions.Compilation;
+
+static class Pattern
 {
-    static class Pattern
+    public static bool IsAmbientProperty(Expression expression, string name, bool isBuiltIn)
     {
-        public static bool IsAmbientProperty(Expression expression, string name, bool isBuiltIn)
+        return expression is AmbientNameExpression px &&
+               px.PropertyName == name &&
+               px.IsBuiltIn == isBuiltIn;
+    }
+
+    public static bool IsStringConstant(Expression expression, [MaybeNullWhen(false)] out string value)
+    {
+        if (expression is ConstantExpression { Constant: ScalarValue { Value: string s } })
         {
-            return expression is AmbientNameExpression px &&
-                   px.PropertyName == name &&
-                   px.IsBuiltIn == isBuiltIn;
+            value = s;
+            return true;
         }
 
-        public static bool IsStringConstant(Expression expression, [MaybeNullWhen(false)] out string value)
-        {
-            if (expression is ConstantExpression { Constant: ScalarValue { Value: string s } })
-            {
-                value = s;
-                return true;
-            }
-
-            value = null;
-            return false;
-        }
+        value = null;
+        return false;
     }
 }

@@ -16,20 +16,19 @@ using System;
 using System.IO;
 using Seq.Mail.Expressions;
 
-namespace Seq.Mail.Templates.Compilation
+namespace Seq.Mail.Templates.Compilation;
+
+class CompiledLiteralText : CompiledTemplate
 {
-    class CompiledLiteralText : CompiledTemplate
+    readonly string _text;
+
+    public CompiledLiteralText(string text)
     {
-        readonly string _text;
+        _text = text ?? throw new ArgumentNullException(nameof(text));
+    }
 
-        public CompiledLiteralText(string text)
-        {
-            _text = text ?? throw new ArgumentNullException(nameof(text));
-        }
-
-        public override void Evaluate(EvaluationContext ctx, TextWriter output)
-        {
-            output.Write(_text);
-        }
+    public override void Evaluate(EvaluationContext ctx, TextWriter output)
+    {
+        output.Write(_text);
     }
 }

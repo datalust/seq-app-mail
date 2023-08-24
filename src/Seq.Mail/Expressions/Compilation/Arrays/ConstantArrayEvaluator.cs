@@ -17,30 +17,29 @@ using Seq.Mail.Expressions.Ast;
 using Seq.Mail.Expressions.Compilation.Transformations;
 using Serilog.Events;
 
-namespace Seq.Mail.Expressions.Compilation.Arrays
+namespace Seq.Mail.Expressions.Compilation.Arrays;
+
+class ConstantArrayEvaluator : IdentityTransformer
 {
-    class ConstantArrayEvaluator : IdentityTransformer
+    static readonly ConstantArrayEvaluator Instance = new();
+
+    public static Expression Evaluate(Expression expression)
     {
-        static readonly ConstantArrayEvaluator Instance = new();
+        return Instance.Transform(expression);
+    }
 
-        public static Expression Evaluate(Expression expression)
+    protected override Expression Transform(ArrayExpression ax)
+    {
+        // This should probably go depth-first.
+
+        if (ax.Elements.All(el => el is ItemElement { Value: ConstantExpression }))
         {
-            return Instance.Transform(expression);
+            return new ConstantExpression(
+                new SequenceValue(ax.Elements
+                    .Cast<ItemElement>()
+                    .Select(item => ((ConstantExpression)item.Value).Constant)));
         }
 
-        protected override Expression Transform(ArrayExpression ax)
-        {
-            // This should probably go depth-first.
-
-            if (ax.Elements.All(el => el is ItemElement { Value: ConstantExpression }))
-            {
-                return new ConstantExpression(
-                    new SequenceValue(ax.Elements
-                        .Cast<ItemElement>()
-                        .Select(item => ((ConstantExpression)item.Value).Constant)));
-            }
-
-            return base.Transform(ax);
-        }
+        return base.Transform(ax);
     }
 }

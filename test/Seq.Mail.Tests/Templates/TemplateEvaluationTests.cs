@@ -5,24 +5,23 @@ using Seq.Mail.Templates;
 using Seq.Mail.Tests.Support;
 using Xunit;
 
-namespace Seq.Mail.Tests.Templates
-{
-    public class TemplateEvaluationTests
-    {
-        public static IEnumerable<object[]> TemplateEvaluationCases =>
-            AsvCases.ReadCases("template-evaluation-cases.asv");
+namespace Seq.Mail.Tests.Templates;
 
-        [Theory]
-        [MemberData(nameof(TemplateEvaluationCases))]
-        public void TemplatesAreCorrectlyEvaluated(string template, string expected)
-        {
-            var evt = Some.InformationEvent("Hello, {Name}!", "nblumhardt");
-            var frFr = CultureInfo.GetCultureInfoByIetfLanguageTag("fr-FR");
-            var compiled = new ExpressionTemplate(template, culture: frFr);
-            var output = new StringWriter();
-            compiled.Format(evt, output);
-            var actual = output.ToString();
-            Assert.Equal(expected, actual);
-        }
+public class TemplateEvaluationTests
+{
+    public static IEnumerable<object[]> TemplateEvaluationCases =>
+        AsvCases.ReadCases("template-evaluation-cases.asv");
+
+    [Theory]
+    [MemberData(nameof(TemplateEvaluationCases))]
+    public void TemplatesAreCorrectlyEvaluated(string template, string expected)
+    {
+        var evt = Some.InformationEvent("Hello, {Name}!", "nblumhardt");
+        var frFr = CultureInfo.GetCultureInfoByIetfLanguageTag("fr-FR");
+        var compiled = new ExpressionTemplate(template, culture: frFr);
+        var output = new StringWriter();
+        compiled.Format(evt, output);
+        var actual = output.ToString();
+        Assert.Equal(expected, actual);
     }
 }

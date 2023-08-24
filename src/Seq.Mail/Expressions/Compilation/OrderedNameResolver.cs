@@ -18,63 +18,62 @@ using System.Linq;
 using System.Reflection;
 using Seq.Mail.Expressions.Ast;
 
-namespace Seq.Mail.Expressions.Compilation
+namespace Seq.Mail.Expressions.Compilation;
+
+class OrderedNameResolver : NameResolver
 {
-    class OrderedNameResolver : NameResolver
+    readonly NameResolver[] _orderedResolvers;
+
+    public OrderedNameResolver(IEnumerable<NameResolver> orderedResolvers)
     {
-        readonly NameResolver[] _orderedResolvers;
+        _orderedResolvers = orderedResolvers.ToArray();
+    }
 
-        public OrderedNameResolver(IEnumerable<NameResolver> orderedResolvers)
+    public override bool TryResolveFunctionName(string name, [MaybeNullWhen(false)] out MethodInfo implementation)
+    {
+        foreach (var resolver in _orderedResolvers)
         {
-            _orderedResolvers = orderedResolvers.ToArray();
+            if (resolver.TryResolveFunctionName(name, out implementation))
+                return true;
         }
 
-        public override bool TryResolveFunctionName(string name, [MaybeNullWhen(false)] out MethodInfo implementation)
-        {
-            foreach (var resolver in _orderedResolvers)
-            {
-                if (resolver.TryResolveFunctionName(name, out implementation))
-                    return true;
-            }
+        implementation = null;
+        return false;
+    }
 
-            implementation = null;
-            return false;
+    public override bool TryBindFunctionParameter(ParameterInfo parameter, [MaybeNullWhen(false)] out object boundValue)
+    {
+        foreach (var resolver in _orderedResolvers)
+        {
+            if (resolver.TryBindFunctionParameter(parameter, out boundValue))
+                return true;
         }
 
-        public override bool TryBindFunctionParameter(ParameterInfo parameter, [MaybeNullWhen(false)] out object boundValue)
-        {
-            foreach (var resolver in _orderedResolvers)
-            {
-                if (resolver.TryBindFunctionParameter(parameter, out boundValue))
-                    return true;
-            }
-
-            boundValue = null;
-            return false;
-        }
+        boundValue = null;
+        return false;
+    }
         
-        public override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out string? target)
+    public override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out string? target)
+    {
+        foreach (var resolver in _orderedResolvers)
         {
-            foreach (var resolver in _orderedResolvers)
-            {
-                if (resolver.TryResolveBuiltInPropertyName(alias, out target))
-                    return true;
-            }
-
-            target = null;
-            return false;
+            if (resolver.TryResolveBuiltInPropertyName(alias, out target))
+                return true;
         }
 
-        internal override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out Expression? target)
-        {
-            foreach (var resolver in _orderedResolvers)
-            {
-                if (resolver.TryResolveBuiltInPropertyName(alias, out target))
-                    return true;
-            }
+        target = null;
+        return false;
+    }
 
-            target = null;
-            return false;
+    internal override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out Expression? target)
+    {
+        foreach (var resolver in _orderedResolvers)
+        {
+            if (resolver.TryResolveBuiltInPropertyName(alias, out target))
+                return true;
         }
+
+        target = null;
+        return false;
     }
 }

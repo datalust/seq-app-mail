@@ -15,23 +15,22 @@
 using System.IO;
 using Seq.Mail.Expressions;
 
-namespace Seq.Mail.Templates.Compilation
+namespace Seq.Mail.Templates.Compilation;
+
+class CompiledExceptionToken : CompiledTemplate
 {
-    class CompiledExceptionToken : CompiledTemplate
+    public override void Evaluate(EvaluationContext ctx, TextWriter output)
     {
-        public override void Evaluate(EvaluationContext ctx, TextWriter output)
+        // Padding and alignment are not applied by this renderer.
+
+        if (ctx.LogEvent.Exception is null)
+            return;
+
+        var lines = new StringReader(ctx.LogEvent.Exception.ToString());
+        string? nextLine;
+        while ((nextLine = lines.ReadLine()) != null)
         {
-            // Padding and alignment are not applied by this renderer.
-
-            if (ctx.LogEvent.Exception is null)
-                return;
-
-            var lines = new StringReader(ctx.LogEvent.Exception.ToString());
-            string? nextLine;
-            while ((nextLine = lines.ReadLine()) != null)
-            {
-                output.WriteLine(nextLine);
-            }
+            output.WriteLine(nextLine);
         }
     }
 }

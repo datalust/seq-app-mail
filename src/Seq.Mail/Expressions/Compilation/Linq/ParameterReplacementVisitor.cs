@@ -16,34 +16,33 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Seq.Mail.Expressions.Compilation.Linq
+namespace Seq.Mail.Expressions.Compilation.Linq;
+
+class ParameterReplacementVisitor : ExpressionVisitor
 {
-    class ParameterReplacementVisitor : ExpressionVisitor
+    readonly ParameterExpression[] _from, _to;
+
+    public static Expression ReplaceParameters(LambdaExpression lambda, params ParameterExpression[] newParameters)
     {
-        readonly ParameterExpression[] _from, _to;
+        var v = new ParameterReplacementVisitor(lambda.Parameters.ToArray(), newParameters);
+        return v.Visit(lambda.Body);
+    }
 
-        public static Expression ReplaceParameters(LambdaExpression lambda, params ParameterExpression[] newParameters)
-        {
-            var v = new ParameterReplacementVisitor(lambda.Parameters.ToArray(), newParameters);
-            return v.Visit(lambda.Body);
-        }
+    ParameterReplacementVisitor(ParameterExpression[] from, ParameterExpression[] to)
+    {
+        if (from == null) throw new ArgumentNullException(nameof(from));
+        if (to == null) throw new ArgumentNullException(nameof(to));
+        if (from.Length != to.Length) throw new InvalidOperationException("Mismatched parameter lists");
+        _from = from;
+        _to = to;
+    }
 
-        ParameterReplacementVisitor(ParameterExpression[] from, ParameterExpression[] to)
+    protected override Expression VisitParameter(ParameterExpression node)
+    {
+        for (var i = 0; i < _from.Length; i++)
         {
-            if (from == null) throw new ArgumentNullException(nameof(from));
-            if (to == null) throw new ArgumentNullException(nameof(to));
-            if (from.Length != to.Length) throw new InvalidOperationException("Mismatched parameter lists");
-            _from = from;
-            _to = to;
+            if (node == _from[i]) return _to[i];
         }
-
-        protected override Expression VisitParameter(ParameterExpression node)
-        {
-            for (var i = 0; i < _from.Length; i++)
-            {
-                if (node == _from[i]) return _to[i];
-            }
-            return node;
-        }
+        return node;
     }
 }

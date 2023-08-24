@@ -14,7 +14,6 @@
 
 using Serilog.Events;
 
-namespace Seq.Mail.Expressions
-{
-    delegate LogEventPropertyValue? Evaluatable(EvaluationContext ctx);
-}
+namespace Seq.Mail.Expressions;
+
+delegate LogEventPropertyValue? Evaluatable(EvaluationContext ctx);

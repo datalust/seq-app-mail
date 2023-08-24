@@ -17,35 +17,34 @@ using System.Collections.Generic;
 using System.Linq;
 using Seq.Mail.Templates.Ast;
 
-namespace Seq.Mail.Templates.Compilation.UnreferencedProperties
-{
-    class TemplateReferencedPropertiesFinder
-    {
-        readonly ExpressionReferencedPropertiesFinder _rpf = new();
+namespace Seq.Mail.Templates.Compilation.UnreferencedProperties;
 
-        public IEnumerable<string> FindReferencedProperties(Template template)
+class TemplateReferencedPropertiesFinder
+{
+    readonly ExpressionReferencedPropertiesFinder _rpf = new();
+
+    public IEnumerable<string> FindReferencedProperties(Template template)
+    {
+        return template switch
         {
-            return template switch
-            {
-                Conditional conditional => _rpf.FindReferencedProperties(conditional.Condition)
-                    .Concat(FindReferencedProperties(conditional.Consequent))
-                    .Concat(conditional.Alternative != null
-                        ? FindReferencedProperties(conditional.Alternative)
-                        : Enumerable.Empty<string>()),
-                FormattedExpression formattedExpression =>
-                    _rpf.FindReferencedProperties(formattedExpression.Expression),
-                LiteralText => Enumerable.Empty<string>(),
-                Repetition repetition => _rpf.FindReferencedProperties(repetition.Enumerable)
-                    .Concat(FindReferencedProperties(repetition.Body))
-                    .Concat(repetition.Alternative != null
-                        ? FindReferencedProperties(repetition.Alternative)
-                        : Enumerable.Empty<string>())
-                    .Concat(repetition.Delimiter != null
-                        ? FindReferencedProperties(repetition.Delimiter)
-                        : Enumerable.Empty<string>()),
-                TemplateBlock templateBlock => templateBlock.Elements.SelectMany(FindReferencedProperties),
-                _ => throw new ArgumentOutOfRangeException(nameof(template))
-            };
-        }
+            Conditional conditional => _rpf.FindReferencedProperties(conditional.Condition)
+                .Concat(FindReferencedProperties(conditional.Consequent))
+                .Concat(conditional.Alternative != null
+                    ? FindReferencedProperties(conditional.Alternative)
+                    : Enumerable.Empty<string>()),
+            FormattedExpression formattedExpression =>
+                _rpf.FindReferencedProperties(formattedExpression.Expression),
+            LiteralText => Enumerable.Empty<string>(),
+            Repetition repetition => _rpf.FindReferencedProperties(repetition.Enumerable)
+                .Concat(FindReferencedProperties(repetition.Body))
+                .Concat(repetition.Alternative != null
+                    ? FindReferencedProperties(repetition.Alternative)
+                    : Enumerable.Empty<string>())
+                .Concat(repetition.Delimiter != null
+                    ? FindReferencedProperties(repetition.Delimiter)
+                    : Enumerable.Empty<string>()),
+            TemplateBlock templateBlock => templateBlock.Elements.SelectMany(FindReferencedProperties),
+            _ => throw new ArgumentOutOfRangeException(nameof(template))
+        };
     }
 }

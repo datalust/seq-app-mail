@@ -21,27 +21,26 @@ using Seq.Mail.Expressions.Compilation.Text;
 using Seq.Mail.Expressions.Compilation.Variadics;
 using Seq.Mail.Expressions.Compilation.Wildcards;
 
-namespace Seq.Mail.Expressions.Compilation
-{
-    static class ExpressionCompiler
-    {
-        public static Expression Translate(Expression expression)
-        {
-            var actual = expression;
-            actual = VariadicCallRewriter.Rewrite(actual);
-            actual = TextMatchingTransformer.Rewrite(actual);
-            actual = LikeSyntaxTransformer.Rewrite(actual);
-            actual = PropertiesObjectAccessorTransformer.Rewrite(actual);
-            actual = ConstantArrayEvaluator.Evaluate(actual);
-            actual = WildcardComprehensionTransformer.Expand(actual);
-            return actual;
-        }
+namespace Seq.Mail.Expressions.Compilation;
 
-        public static Evaluatable Compile(Expression expression, CultureInfo? formatProvider,
-            NameResolver nameResolver)
-        {
-            var actual = Translate(expression);
-            return LinqExpressionCompiler.Compile(actual, formatProvider, nameResolver);
-        }
+static class ExpressionCompiler
+{
+    public static Expression Translate(Expression expression)
+    {
+        var actual = expression;
+        actual = VariadicCallRewriter.Rewrite(actual);
+        actual = TextMatchingTransformer.Rewrite(actual);
+        actual = LikeSyntaxTransformer.Rewrite(actual);
+        actual = PropertiesObjectAccessorTransformer.Rewrite(actual);
+        actual = ConstantArrayEvaluator.Evaluate(actual);
+        actual = WildcardComprehensionTransformer.Expand(actual);
+        return actual;
+    }
+
+    public static Evaluatable Compile(Expression expression, CultureInfo? formatProvider,
+        NameResolver nameResolver)
+    {
+        var actual = Translate(expression);
+        return LinqExpressionCompiler.Compile(actual, formatProvider, nameResolver);
     }
 }

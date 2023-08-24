@@ -14,16 +14,15 @@
 
 using Seq.Mail.Expressions.Runtime;
 
-namespace Seq.Mail.Expressions.Compilation
+namespace Seq.Mail.Expressions.Compilation;
+
+static class DefaultFunctionNameResolver
 {
-    static class DefaultFunctionNameResolver
+    public static NameResolver Build(NameResolver? additionalNameResolver)
     {
-        public static NameResolver Build(NameResolver? additionalNameResolver)
-        {
-            var defaultResolver = new StaticMemberNameResolver(typeof(RuntimeOperators));
-            return additionalNameResolver == null
-                ? (NameResolver) defaultResolver
-                : new OrderedNameResolver(new[] {defaultResolver, additionalNameResolver });
-        }
+        var defaultResolver = new StaticMemberNameResolver(typeof(RuntimeOperators));
+        return additionalNameResolver == null
+            ? (NameResolver) defaultResolver
+            : new OrderedNameResolver(new[] {defaultResolver, additionalNameResolver });
     }
 }

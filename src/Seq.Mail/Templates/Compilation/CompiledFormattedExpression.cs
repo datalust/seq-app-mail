@@ -20,58 +20,57 @@ using Serilog.Events;
 using Serilog.Formatting.Json;
 using Serilog.Parsing;
 
-namespace Seq.Mail.Templates.Compilation
+namespace Seq.Mail.Templates.Compilation;
+
+class CompiledFormattedExpression : CompiledTemplate
 {
-    class CompiledFormattedExpression : CompiledTemplate
+    readonly JsonValueFormatter _jsonFormatter;
+    readonly Evaluatable _expression;
+    readonly string? _format;
+    readonly Alignment? _alignment;
+    readonly IFormatProvider? _formatProvider;
+    public CompiledFormattedExpression(Evaluatable expression, string? format, Alignment? alignment, IFormatProvider? formatProvider)
     {
-        readonly JsonValueFormatter _jsonFormatter;
-        readonly Evaluatable _expression;
-        readonly string? _format;
-        readonly Alignment? _alignment;
-        readonly IFormatProvider? _formatProvider;
-        public CompiledFormattedExpression(Evaluatable expression, string? format, Alignment? alignment, IFormatProvider? formatProvider)
+        _expression = expression ?? throw new ArgumentNullException(nameof(expression));
+        _format = format;
+        _alignment = alignment;
+        _formatProvider = formatProvider;
+        _jsonFormatter = new JsonValueFormatter("$type");
+    }
+
+    public override void Evaluate(EvaluationContext ctx, TextWriter output)
+    {
+        if (_alignment == null)
         {
-            _expression = expression ?? throw new ArgumentNullException(nameof(expression));
-            _format = format;
-            _alignment = alignment;
-            _formatProvider = formatProvider;
-            _jsonFormatter = new JsonValueFormatter("$type");
+            EvaluateUnaligned(ctx, output, _formatProvider);
         }
-
-        public override void Evaluate(EvaluationContext ctx, TextWriter output)
+        else
         {
-            if (_alignment == null)
-            {
-                EvaluateUnaligned(ctx, output, _formatProvider);
-            }
-            else
-            {
-                var writer = new StringWriter();
-                EvaluateUnaligned(ctx, writer, _formatProvider);
-                Padding.Apply(output, writer.ToString(), _alignment.Value);
-            }
+            var writer = new StringWriter();
+            EvaluateUnaligned(ctx, writer, _formatProvider);
+            Padding.Apply(output, writer.ToString(), _alignment.Value);
         }
+    }
 
-        void EvaluateUnaligned(EvaluationContext ctx, TextWriter output, IFormatProvider? formatProvider)
+    void EvaluateUnaligned(EvaluationContext ctx, TextWriter output, IFormatProvider? formatProvider)
+    {
+        var value = _expression(ctx);
+        if (value == null)
+            return; // Undefined is empty
+
+        if (value is ScalarValue scalar)
         {
-            var value = _expression(ctx);
-            if (value == null)
-                return; // Undefined is empty
+            if (scalar.Value is null)
+                return; // Null is empty
 
-            if (value is ScalarValue scalar)
-            {
-                if (scalar.Value is null)
-                    return; // Null is empty
-
-                if (scalar.Value is IFormattable fmt)
-                    output.Write(fmt.ToString(_format, formatProvider));
-                else
-                    output.Write(scalar.Value.ToString());
-            }
+            if (scalar.Value is IFormattable fmt)
+                output.Write(fmt.ToString(_format, formatProvider));
             else
-            {
-                _jsonFormatter.Format(value, output);
-            }
+                output.Write(scalar.Value.ToString());
+        }
+        else
+        {
+            _jsonFormatter.Format(value, output);
         }
     }
 }

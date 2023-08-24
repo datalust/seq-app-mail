@@ -19,48 +19,47 @@ using Seq.Mail.Expressions.Compilation.Transformations;
 using Serilog.Debugging;
 using Serilog.Events;
 
-namespace Seq.Mail.Expressions.Compilation.Text
+namespace Seq.Mail.Expressions.Compilation.Text;
+
+class TextMatchingTransformer: IdentityTransformer
 {
-    class TextMatchingTransformer: IdentityTransformer
+    static readonly TextMatchingTransformer Instance = new();
+
+    public static Expression Rewrite(Expression expression)
     {
-        static readonly TextMatchingTransformer Instance = new();
+        return Instance.Transform(expression);
+    }
 
-        public static Expression Rewrite(Expression expression)
-        {
-            return Instance.Transform(expression);
-        }
-
-        protected override Expression Transform(CallExpression call)
-        {
-            if (call.Operands.Length != 2)
-                return base.Transform(call);
-
-            if (Operators.SameOperator(call.OperatorName, Operators.OpIndexOfMatch))
-                return TryCompileIndexOfMatch(call.IgnoreCase, call.Operands[0], call.Operands[1]);
-
-            if (Operators.SameOperator(call.OperatorName, Operators.OpIsMatch))
-                return new CallExpression(
-                    false,
-                    Operators.RuntimeOpNotEqual,
-                    TryCompileIndexOfMatch(call.IgnoreCase, call.Operands[0], call.Operands[1]),
-                    new ConstantExpression(new ScalarValue(-1)));
-
+    protected override Expression Transform(CallExpression call)
+    {
+        if (call.Operands.Length != 2)
             return base.Transform(call);
-        }
 
-        Expression TryCompileIndexOfMatch(bool ignoreCase, Expression corpus, Expression regex)
+        if (Operators.SameOperator(call.OperatorName, Operators.OpIndexOfMatch))
+            return TryCompileIndexOfMatch(call.IgnoreCase, call.Operands[0], call.Operands[1]);
+
+        if (Operators.SameOperator(call.OperatorName, Operators.OpIsMatch))
+            return new CallExpression(
+                false,
+                Operators.RuntimeOpNotEqual,
+                TryCompileIndexOfMatch(call.IgnoreCase, call.Operands[0], call.Operands[1]),
+                new ConstantExpression(new ScalarValue(-1)));
+
+        return base.Transform(call);
+    }
+
+    Expression TryCompileIndexOfMatch(bool ignoreCase, Expression corpus, Expression regex)
+    {
+        if (regex is ConstantExpression { Constant: ScalarValue { Value: string s } })
         {
-            if (regex is ConstantExpression { Constant: ScalarValue { Value: string s } })
-            {
-                var opts = RegexOptions.Compiled | RegexOptions.ExplicitCapture;
-                if (ignoreCase)
-                    opts |= RegexOptions.IgnoreCase;
-                var compiled = new Regex(s, opts, TimeSpan.FromMilliseconds(100));
-                return new IndexOfMatchExpression(Transform(corpus), compiled);
-            }
-
-            SelfLog.WriteLine($"Seq.App.HttpRequest: `IndexOfMatch()` requires a constant string regular expression argument; found ${regex}.");
-            return new CallExpression(false, Operators.OpUndefined);
+            var opts = RegexOptions.Compiled | RegexOptions.ExplicitCapture;
+            if (ignoreCase)
+                opts |= RegexOptions.IgnoreCase;
+            var compiled = new Regex(s, opts, TimeSpan.FromMilliseconds(100));
+            return new IndexOfMatchExpression(Transform(corpus), compiled);
         }
+
+        SelfLog.WriteLine($"Seq.App.HttpRequest: `IndexOfMatch()` requires a constant string regular expression argument; found ${regex}.");
+        return new CallExpression(false, Operators.OpUndefined);
     }
 }

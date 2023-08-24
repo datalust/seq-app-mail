@@ -15,10 +15,9 @@
 using System.IO;
 using Seq.Mail.Expressions;
 
-namespace Seq.Mail.Templates.Compilation
+namespace Seq.Mail.Templates.Compilation;
+
+abstract class CompiledTemplate
 {
-    abstract class CompiledTemplate
-    {
-        public abstract void Evaluate(EvaluationContext ctx, TextWriter output);
-    }
+    public abstract void Evaluate(EvaluationContext ctx, TextWriter output);
 }

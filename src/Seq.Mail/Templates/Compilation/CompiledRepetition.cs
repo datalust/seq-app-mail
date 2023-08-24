@@ -17,132 +17,131 @@ using Seq.Mail.Expressions;
 using Seq.Mail.Expressions.Runtime;
 using Serilog.Events;
 
-namespace Seq.Mail.Templates.Compilation
-{
-    class CompiledRepetition : CompiledTemplate
-    {
-        readonly Evaluatable _enumerable;
-        readonly string? _keyOrElementName;
-        readonly string? _valueOrIndexName;
-        readonly CompiledTemplate _body;
-        readonly CompiledTemplate? _delimiter;
-        readonly CompiledTemplate? _alternative;
+namespace Seq.Mail.Templates.Compilation;
 
-        public CompiledRepetition(
-            Evaluatable enumerable,
-            string? keyOrElementName,
-            string? valueOrIndexName,
-            CompiledTemplate body,
-            CompiledTemplate? delimiter,
-            CompiledTemplate? alternative)
+class CompiledRepetition : CompiledTemplate
+{
+    readonly Evaluatable _enumerable;
+    readonly string? _keyOrElementName;
+    readonly string? _valueOrIndexName;
+    readonly CompiledTemplate _body;
+    readonly CompiledTemplate? _delimiter;
+    readonly CompiledTemplate? _alternative;
+
+    public CompiledRepetition(
+        Evaluatable enumerable,
+        string? keyOrElementName,
+        string? valueOrIndexName,
+        CompiledTemplate body,
+        CompiledTemplate? delimiter,
+        CompiledTemplate? alternative)
+    {
+        _enumerable = enumerable;
+        _keyOrElementName = keyOrElementName;
+        _valueOrIndexName = valueOrIndexName;
+        _body = body;
+        _delimiter = delimiter;
+        _alternative = alternative;
+    }
+
+    public override void Evaluate(EvaluationContext ctx, TextWriter output)
+    {
+        var enumerable = _enumerable(ctx);
+        if (enumerable == null ||
+            enumerable is ScalarValue)
         {
-            _enumerable = enumerable;
-            _keyOrElementName = keyOrElementName;
-            _valueOrIndexName = valueOrIndexName;
-            _body = body;
-            _delimiter = delimiter;
-            _alternative = alternative;
+            _alternative?.Evaluate(ctx, output);
+            return;
         }
 
-        public override void Evaluate(EvaluationContext ctx, TextWriter output)
+        if (enumerable is SequenceValue sequence)
         {
-            var enumerable = _enumerable(ctx);
-            if (enumerable == null ||
-                enumerable is ScalarValue)
+            if (sequence.Elements.Count == 0)
             {
                 _alternative?.Evaluate(ctx, output);
                 return;
             }
 
-            if (enumerable is SequenceValue sequence)
+            for (var i = 0; i < sequence.Elements.Count; ++i)
             {
-                if (sequence.Elements.Count == 0)
+                // Null elements should have been invalid but Serilog didn't check, and so this does occur in the wild.
+                var element = sequence.Elements[i] ?? new ScalarValue(null);
+
+                if (i != 0)
                 {
-                    _alternative?.Evaluate(ctx, output);
-                    return;
+                    _delimiter?.Evaluate(ctx, output);
                 }
 
-                for (var i = 0; i < sequence.Elements.Count; ++i)
-                {
-                    // Null elements should have been invalid but Serilog didn't check, and so this does occur in the wild.
-                    var element = sequence.Elements[i] ?? new ScalarValue(null);
+                var local = _keyOrElementName != null
+                    ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element))
+                    : ctx;
 
-                    if (i != 0)
-                    {
-                        _delimiter?.Evaluate(ctx, output);
-                    }
+                local = _valueOrIndexName != null
+                    ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, new ScalarValue(i)))
+                    : local;
 
-                    var local = _keyOrElementName != null
-                        ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element))
-                        : ctx;
+                _body.Evaluate(local, output);
+            }
 
-                    local = _valueOrIndexName != null
-                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, new ScalarValue(i)))
-                        : local;
+            return;
+        }
 
-                    _body.Evaluate(local, output);
-                }
-
+        if (enumerable is StructureValue structure)
+        {
+            if (structure.Properties.Count == 0)
+            {
+                _alternative?.Evaluate(ctx, output);
                 return;
             }
 
-            if (enumerable is StructureValue structure)
+            var first = true;
+            foreach (var member in structure.Properties)
             {
-                if (structure.Properties.Count == 0)
-                {
-                    _alternative?.Evaluate(ctx, output);
-                    return;
-                }
+                if (first)
+                    first = false;
+                else
+                    _delimiter?.Evaluate(ctx, output);
 
-                var first = true;
-                foreach (var member in structure.Properties)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        _delimiter?.Evaluate(ctx, output);
+                var local = _keyOrElementName != null
+                    ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, new ScalarValue(member.Name)))
+                    : ctx;
 
-                    var local = _keyOrElementName != null
-                        ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, new ScalarValue(member.Name)))
-                        : ctx;
+                local = _valueOrIndexName != null
+                    ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, member.Value))
+                    : local;
 
-                    local = _valueOrIndexName != null
-                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, member.Value))
-                        : local;
-
-                    _body.Evaluate(local, output);
-                }
+                _body.Evaluate(local, output);
             }
-
-            if (enumerable is DictionaryValue dict)
-            {
-                if (dict.Elements.Count == 0)
-                {
-                    _alternative?.Evaluate(ctx, output);
-                    return;
-                }
-
-                var first = true;
-                foreach (var element in dict.Elements)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        _delimiter?.Evaluate(ctx, output);
-
-                    var local = _keyOrElementName != null
-                        ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element.Key))
-                        : ctx;
-
-                    local = _valueOrIndexName != null
-                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, element.Value))
-                        : local;
-
-                    _body.Evaluate(local, output);
-                }
-            }
-
-            // Unsupported; not much we can do.
         }
+
+        if (enumerable is DictionaryValue dict)
+        {
+            if (dict.Elements.Count == 0)
+            {
+                _alternative?.Evaluate(ctx, output);
+                return;
+            }
+
+            var first = true;
+            foreach (var element in dict.Elements)
+            {
+                if (first)
+                    first = false;
+                else
+                    _delimiter?.Evaluate(ctx, output);
+
+                var local = _keyOrElementName != null
+                    ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element.Key))
+                    : ctx;
+
+                local = _valueOrIndexName != null
+                    ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, element.Value))
+                    : local;
+
+                _body.Evaluate(local, output);
+            }
+        }
+
+        // Unsupported; not much we can do.
     }
 }

@@ -16,17 +16,16 @@ using System;
 using Seq.Mail.Expressions.Runtime;
 using Serilog.Events;
 
-namespace Seq.Mail.Expressions
-{
-    readonly struct EvaluationContext
-    {
-        public LogEvent LogEvent { get; }
-        public Locals? Locals { get; }
+namespace Seq.Mail.Expressions;
 
-        public EvaluationContext(LogEvent logEvent, Locals? locals = null)
-        {
-            LogEvent = logEvent ?? throw new ArgumentNullException(nameof(logEvent));
-            Locals = locals;
-        }
+readonly struct EvaluationContext
+{
+    public LogEvent LogEvent { get; }
+    public Locals? Locals { get; }
+
+    public EvaluationContext(LogEvent logEvent, Locals? locals = null)
+    {
+        LogEvent = logEvent ?? throw new ArgumentNullException(nameof(logEvent));
+        Locals = locals;
     }
 }

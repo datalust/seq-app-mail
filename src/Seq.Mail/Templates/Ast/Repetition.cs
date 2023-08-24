@@ -15,28 +15,27 @@
 using System;
 using Seq.Mail.Expressions.Ast;
 
-namespace Seq.Mail.Templates.Ast
-{
-    class Repetition: Template
-    {
-        public Expression Enumerable { get; }
-        public string[] BindingNames { get; }
-        public Template Body { get; }
-        public Template? Delimiter { get; }
-        public Template? Alternative { get; }
+namespace Seq.Mail.Templates.Ast;
 
-        public Repetition(
-            Expression enumerable,
-            string[] bindingNames,
-            Template body,
-            Template? delimiter,
-            Template? alternative)
-        {
-            Enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
-            BindingNames = bindingNames;
-            Body = body ?? throw new ArgumentNullException(nameof(body));
-            Delimiter = delimiter;
-            Alternative = alternative;
-        }
+class Repetition: Template
+{
+    public Expression Enumerable { get; }
+    public string[] BindingNames { get; }
+    public Template Body { get; }
+    public Template? Delimiter { get; }
+    public Template? Alternative { get; }
+
+    public Repetition(
+        Expression enumerable,
+        string[] bindingNames,
+        Template body,
+        Template? delimiter,
+        Template? alternative)
+    {
+        Enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
+        BindingNames = bindingNames;
+        Body = body ?? throw new ArgumentNullException(nameof(body));
+        Delimiter = delimiter;
+        Alternative = alternative;
     }
 }

@@ -1,22 +1,21 @@
 ﻿using System;
 using Serilog.Events;
 
-namespace Seq.Mail.Templates.Encoding
+namespace Seq.Mail.Templates.Encoding;
+
+class PreEncodedValue
 {
-    class PreEncodedValue
+    public LogEventPropertyValue? Inner { get; }
+
+    public PreEncodedValue(LogEventPropertyValue? inner)
     {
-        public LogEventPropertyValue? Inner { get; }
+        Inner = inner;
+    }
 
-        public PreEncodedValue(LogEventPropertyValue? inner)
-        {
-            Inner = inner;
-        }
-
-        public override string ToString()
-        {
-            // This code path indicates that the template expects encoding to be performed, but no encoder is
-            // registered (probably a bad situation to be in).
-            throw new InvalidOperationException("No output encoder is registered.");
-        }
+    public override string ToString()
+    {
+        // This code path indicates that the template expects encoding to be performed, but no encoder is
+        // registered (probably a bad situation to be in).
+        throw new InvalidOperationException("No output encoder is registered.");
     }
 }
