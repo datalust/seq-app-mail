@@ -23,7 +23,7 @@ namespace Seq.Mail.Expressions.Compilation.Text
 {
     class TextMatchingTransformer: IdentityTransformer
     {
-        static readonly TextMatchingTransformer Instance = new TextMatchingTransformer();
+        static readonly TextMatchingTransformer Instance = new();
 
         public static Expression Rewrite(Expression expression)
         {

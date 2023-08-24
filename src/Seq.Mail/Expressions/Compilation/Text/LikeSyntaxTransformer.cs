@@ -23,7 +23,7 @@ namespace Seq.Mail.Expressions.Compilation.Text
 {
     class LikeSyntaxTransformer: IdentityTransformer
     {
-        static readonly LikeSyntaxTransformer Instance = new LikeSyntaxTransformer();
+        static readonly LikeSyntaxTransformer Instance = new();
 
         public static Expression Rewrite(Expression expression)
         {

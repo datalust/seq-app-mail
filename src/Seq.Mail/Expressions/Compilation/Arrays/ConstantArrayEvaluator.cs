@@ -21,7 +21,7 @@ namespace Seq.Mail.Expressions.Compilation.Arrays
 {
     class ConstantArrayEvaluator : IdentityTransformer
     {
-        static readonly ConstantArrayEvaluator Instance = new ConstantArrayEvaluator();
+        static readonly ConstantArrayEvaluator Instance = new();
 
         public static Expression Evaluate(Expression expression)
         {

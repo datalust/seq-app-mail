@@ -21,7 +21,7 @@ namespace Seq.Mail.Templates.Parsing
 {
     class TemplateTokenizer : Tokenizer<ExpressionToken>
     {
-        readonly ExpressionTokenizer _expressionTokenizer = new ExpressionTokenizer();
+        readonly ExpressionTokenizer _expressionTokenizer = new();
 
         protected override IEnumerable<Result<ExpressionToken>> Tokenize(TextSpan span)
         {

@@ -20,7 +20,7 @@ namespace Seq.Mail.Expressions.Compilation.Wildcards
 {
     class WildcardSearch : SerilogExpressionTransformer<IndexerExpression?>
     {
-        static readonly WildcardSearch Instance = new WildcardSearch();
+        static readonly WildcardSearch Instance = new();
 
         public static IndexerExpression? FindWildcardIndexer(Expression fx)
         {

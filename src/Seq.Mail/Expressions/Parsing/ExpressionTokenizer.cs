@@ -25,22 +25,22 @@ namespace Seq.Mail.Expressions.Parsing
 
         readonly ExpressionKeyword[] _keywords =
         {
-            new ExpressionKeyword("and", ExpressionToken.And),
-            new ExpressionKeyword("in", ExpressionToken.In),
-            new ExpressionKeyword("is", ExpressionToken.Is),
-            new ExpressionKeyword("like", ExpressionToken.Like),
-            new ExpressionKeyword("not", ExpressionToken.Not),
-            new ExpressionKeyword("or", ExpressionToken.Or),
-            new ExpressionKeyword("true", ExpressionToken.True),
-            new ExpressionKeyword("false", ExpressionToken.False),
-            new ExpressionKeyword("null", ExpressionToken.Null),
-            new ExpressionKeyword("if", ExpressionToken.If),
-            new ExpressionKeyword("then", ExpressionToken.Then),
-            new ExpressionKeyword("else", ExpressionToken.Else),
-            new ExpressionKeyword("end", ExpressionToken.End),
-            new ExpressionKeyword("ci", ExpressionToken.CI),
-            new ExpressionKeyword("each", ExpressionToken.Each),
-            new ExpressionKeyword("delimit", ExpressionToken.Delimit),
+            new("and", ExpressionToken.And),
+            new("in", ExpressionToken.In),
+            new("is", ExpressionToken.Is),
+            new("like", ExpressionToken.Like),
+            new("not", ExpressionToken.Not),
+            new("or", ExpressionToken.Or),
+            new("true", ExpressionToken.True),
+            new("false", ExpressionToken.False),
+            new("null", ExpressionToken.Null),
+            new("if", ExpressionToken.If),
+            new("then", ExpressionToken.Then),
+            new("else", ExpressionToken.Else),
+            new("end", ExpressionToken.End),
+            new("ci", ExpressionToken.CI),
+            new("each", ExpressionToken.Each),
+            new("delimit", ExpressionToken.Delimit),
         };
 
         public ExpressionTokenizer()

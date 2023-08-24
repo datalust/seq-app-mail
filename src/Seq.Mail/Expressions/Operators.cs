@@ -80,7 +80,7 @@ namespace Seq.Mail.Expressions
         public const string RuntimeOpStrictNot = "_Internal_StrictNot";
         public const string RuntimeOpIfThenElse = "_Internal_IfThenElse";
 
-        public static readonly HashSet<string> WildcardComparators = new HashSet<string>(OperatorComparer)
+        public static readonly HashSet<string> WildcardComparators = new(OperatorComparer)
         {
             OpContains,
             OpStartsWith,

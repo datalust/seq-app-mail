@@ -7,7 +7,7 @@ namespace Seq.Mail.Tests.Support
 {
     class CollectingSink : ILogEventSink
     {
-        readonly List<LogEvent> _events = new List<LogEvent>();
+        readonly List<LogEvent> _events = new();
 
         public List<LogEvent> Events { get { return _events; } }
 

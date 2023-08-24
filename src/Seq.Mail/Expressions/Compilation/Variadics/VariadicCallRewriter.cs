@@ -21,7 +21,7 @@ namespace Seq.Mail.Expressions.Compilation.Variadics
     // Handles variadic `coalesce()` and `concat()`, as well as optional arguments for other functions.
     class VariadicCallRewriter : IdentityTransformer
     {
-        static readonly VariadicCallRewriter Instance = new VariadicCallRewriter();
+        static readonly VariadicCallRewriter Instance = new();
 
         public static Expression Rewrite(Expression expression)
         {
