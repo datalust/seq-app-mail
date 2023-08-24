@@ -104,11 +104,11 @@ To iterate over array elements or object properties use `{#each e in expr}` or `
 
 ```
 {#each name, value in @Properties}
-{name} is {value}
+  {name} is {value}
 {#delimit}
----
+  ---
 {#else}
-No properties
+  No properties
 {#end}
 ```
 
