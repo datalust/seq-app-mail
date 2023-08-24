@@ -13,7 +13,7 @@ namespace Seq.Mail
 {
     public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
     {
-        const string DefaultSubjectTemplate = "[{@l}] {@m} (via Seq)";
+        const string DefaultSubjectTemplate = "{@Message}";
 
         MailMessageFactory? _mailMessageFactory;
 
