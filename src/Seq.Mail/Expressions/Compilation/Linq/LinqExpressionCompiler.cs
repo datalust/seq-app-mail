@@ -24,7 +24,6 @@ using Seq.Mail.Expressions.Ast;
 using Seq.Mail.Expressions.Compilation.Transformations;
 using Seq.Mail.Templates.Compilation;
 using Serilog.Events;
-using ConstantExpression = Seq.Mail.Expressions.Ast.ConstantExpression;
 using Expression = Seq.Mail.Expressions.Ast.Expression;
 using ParameterExpression = System.Linq.Expressions.ParameterExpression;
 using LX = System.Linq.Expressions.Expression;
