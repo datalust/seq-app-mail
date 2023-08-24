@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Seq.Mail.Expressions.Ast;
+// ReSharper disable UnusedMember.Global
 
 // ReSharper disable InconsistentNaming, MemberCanBePrivate.Global
 
