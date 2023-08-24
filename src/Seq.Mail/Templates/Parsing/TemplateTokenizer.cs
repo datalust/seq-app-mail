@@ -114,9 +114,7 @@ class TemplateTokenizer : Tokenizer<ExpressionToken>
             if (!token.HasValue)
                 yield break;
 
-            if (token.Value == ExpressionToken.LParen ||
-                token.Value == ExpressionToken.LBrace ||
-                token.Value == ExpressionToken.LBracket)
+            if (token.Value is ExpressionToken.LParen or ExpressionToken.LBrace or ExpressionToken.LBracket)
             {
                 toMatch.Push(token.Value);
             }

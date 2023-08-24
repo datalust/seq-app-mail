@@ -47,8 +47,7 @@ class CompiledRepetition : CompiledTemplate
     public override void Evaluate(EvaluationContext ctx, TextWriter output)
     {
         var enumerable = _enumerable(ctx);
-        if (enumerable == null ||
-            enumerable is ScalarValue)
+        if (enumerable is null or ScalarValue)
         {
             _alternative?.Evaluate(ctx, output);
             return;
