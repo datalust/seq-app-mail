@@ -84,7 +84,7 @@ class LinqExpressionCompiler : SerilogExpressionTransformer<ExpressionBody>
         _formatProvider = formatProvider;
     }
 
-    public static Evaluatable Compile(Ast.Expression expression, CultureInfo? formatProvider,
+    public static Evaluatable Compile(Expression expression, CultureInfo? formatProvider,
         NameResolver nameResolver)
     {
         if (expression == null) throw new ArgumentNullException(nameof(expression));
@@ -253,7 +253,7 @@ class LinqExpressionCompiler : SerilogExpressionTransformer<ExpressionBody>
         else
             throw new NotSupportedException("Unsupported lambda signature.");
 
-        var lambda = LX.Lambda(delegateType, rewritten!, parameters.Select(px => px.Item2).ToArray());
+        var lambda = LX.Lambda(delegateType, rewritten, parameters.Select(px => px.Item2).ToArray());
 
         // Unfortunately, right now, functions need to be threaded through in constant scalar values :-D
         return LX.New(typeof(ScalarValue).GetConstructor(new[] {typeof(object)})!,

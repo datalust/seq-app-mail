@@ -22,7 +22,7 @@ public class UnreferencedPropertiesFunctionTests
     {
         Assert.True(new TemplateParser().TryParse("{@m}{A + 1}{#if true}{B}{#end}", out var template, out _));
 
-        var function = new UnreferencedPropertiesFunction(template!);
+        var function = new UnreferencedPropertiesFunction(template);
 
         var evt = new LogEvent(
             DateTimeOffset.Now,

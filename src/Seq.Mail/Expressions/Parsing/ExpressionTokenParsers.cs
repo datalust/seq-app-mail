@@ -93,9 +93,9 @@ static class ExpressionTokenParsers
 
     static readonly TokenListParser<ExpressionToken, Element> ArrayElement =
         Token.EqualTo(ExpressionToken.Spread)
-            .IgnoreThen(Parse.Ref(() => Expr!))
+            .IgnoreThen(Parse.Ref(() => Expr))
             .Select(content => (Element)new SpreadElement(content))
-            .Or(Parse.Ref(() => Expr!).Select(item => (Element) new ItemElement(item)));
+            .Or(Parse.Ref(() => Expr).Select(item => (Element) new ItemElement(item)));
 
     static readonly TokenListParser<ExpressionToken, Expression> ArrayLiteral =
         (from lbracket in Token.EqualTo(ExpressionToken.LBracket)

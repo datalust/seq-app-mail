@@ -13,7 +13,7 @@ namespace Seq.Mail.Tests.Support;
 // The ASV format informally supports `//` comment lines, as long as they don't contain the arrow character.
 static class AsvCases
 {
-    static readonly string CasesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Cases");
+    static readonly string CasesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cases");
 
     public static IEnumerable<object[]> ReadCases(string filename)
     {

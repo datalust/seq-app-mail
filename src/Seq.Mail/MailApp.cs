@@ -78,8 +78,8 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
             BodyIsPlainText,
             TimeZoneName ?? PortableTimeZoneInfo.UtcTimeZoneName,
             DateTimeFormat ?? "o",
-            this.App,
-            this.Host);
+            App,
+            Host);
     }
 
     protected abstract Task SendAsync(MimeMessage message, CancellationToken cancel);
