@@ -50,9 +50,7 @@ namespace Seq.Mail.Expressions.Compilation.Text
 
         Expression TryCompileIndexOfMatch(bool ignoreCase, Expression corpus, Expression regex)
         {
-            if (regex is ConstantExpression cx &&
-                cx.Constant is ScalarValue scalar &&
-                scalar.Value is string s)
+            if (regex is ConstantExpression { Constant: ScalarValue { Value: string s } })
             {
                 var opts = RegexOptions.Compiled | RegexOptions.ExplicitCapture;
                 if (ignoreCase)

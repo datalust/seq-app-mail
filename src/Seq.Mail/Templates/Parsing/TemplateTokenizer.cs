@@ -44,14 +44,14 @@ namespace Seq.Mail.Templates.Parsing
                         yield return Result.Value(ExpressionToken.Text, start, rem);
 
                     var peek = next.Remainder.ConsumeChar();
-                    if (peek.HasValue && peek.Value == '{')
+                    if (peek is { HasValue: true, Value: '{' })
                     {
                         yield return Result.Value(ExpressionToken.DoubleLBrace, next.Location, peek.Remainder);
                         start = rem = peek.Remainder;
                     }
                     else
                     {
-                        if (peek.HasValue && peek.Value == '#')
+                        if (peek is { HasValue: true, Value: '#' })
                         {
                             yield return Result.Value(ExpressionToken.LBraceHash, next.Location, peek.Remainder);
                             start = rem = peek.Remainder;
@@ -75,7 +75,7 @@ namespace Seq.Mail.Templates.Parsing
                         yield return Result.Value(ExpressionToken.Text, start, rem);
 
                     var peek = next.Remainder.ConsumeChar();
-                    if (peek.HasValue && peek.Value == '}')
+                    if (peek is { HasValue: true, Value: '}' })
                     {
                         yield return Result.Value(ExpressionToken.DoubleRBrace, next.Location, peek.Remainder);
                         start = rem = peek.Remainder;

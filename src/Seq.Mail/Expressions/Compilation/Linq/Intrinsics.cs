@@ -125,15 +125,14 @@ namespace Seq.Mail.Expressions.Compilation.Linq
 
         public static bool CoerceToScalarBoolean(LogEventPropertyValue value)
         {
-            if (value is ScalarValue sv && sv.Value is bool b)
+            if (value is ScalarValue { Value: bool b })
                 return b;
             return false;
         }
 
         public static LogEventPropertyValue? IndexOfMatch(LogEventPropertyValue value, Regex regex)
         {
-            if (value is ScalarValue scalar &&
-                scalar.Value is string s)
+            if (value is ScalarValue { Value: string s })
             {
                 var m = regex.Match(s);
                 if (m.Success)

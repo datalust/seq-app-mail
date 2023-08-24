@@ -32,8 +32,7 @@ namespace Seq.Mail.Expressions.Compilation.Arrays
         {
             // This should probably go depth-first.
 
-            if (ax.Elements.All(el => el is ItemElement item &&
-                                      item.Value is ConstantExpression))
+            if (ax.Elements.All(el => el is ItemElement { Value: ConstantExpression }))
             {
                 return new ConstantExpression(
                     new SequenceValue(ax.Elements

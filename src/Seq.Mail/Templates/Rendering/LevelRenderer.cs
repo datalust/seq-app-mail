@@ -85,7 +85,7 @@ namespace Seq.Mail.Templates.Rendering
             }
 
             var index = (int)value;
-            if (index >= 0 && index <= (int)LogEventLevel.Fatal)
+            if (index is >= 0 and <= (int)LogEventLevel.Fatal)
             {
                 switch (format[0])
                 {

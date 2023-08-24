@@ -29,9 +29,7 @@ namespace Seq.Mail.Expressions.Compilation
 
         public static bool IsStringConstant(Expression expression, [MaybeNullWhen(false)] out string value)
         {
-            if (expression is ConstantExpression cx &&
-                cx.Constant is ScalarValue sv &&
-                sv.Value is string s)
+            if (expression is ConstantExpression { Constant: ScalarValue { Value: string s } })
             {
                 value = s;
                 return true;

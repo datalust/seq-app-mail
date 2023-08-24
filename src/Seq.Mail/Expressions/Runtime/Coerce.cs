@@ -28,8 +28,7 @@ namespace Seq.Mail.Expressions.Runtime
 
         public static bool Numeric(LogEventPropertyValue? value, out decimal numeric)
         {
-            if (value is ScalarValue sv &&
-                sv.Value != null &&
+            if (value is ScalarValue { Value: not null } sv &&
                 NumericTypes.Contains(sv.Value.GetType()))
             {
                 numeric = (decimal)Convert.ChangeType(sv.Value, typeof(decimal));
@@ -42,8 +41,7 @@ namespace Seq.Mail.Expressions.Runtime
 
         public static bool Boolean(LogEventPropertyValue? value, out bool boolean)
         {
-            if (value is ScalarValue sv &&
-                sv.Value is bool b)
+            if (value is ScalarValue { Value: bool b })
             {
                 boolean = b;
                 return true;
@@ -88,8 +86,7 @@ namespace Seq.Mail.Expressions.Runtime
         public static bool Predicate(LogEventPropertyValue? value,
             [MaybeNullWhen(false)] out Func<LogEventPropertyValue, LogEventPropertyValue> predicate)
         {
-            if (value is ScalarValue sv &&
-                sv.Value is Func<LogEventPropertyValue, LogEventPropertyValue> pred)
+            if (value is ScalarValue { Value: Func<LogEventPropertyValue, LogEventPropertyValue> pred })
             {
                 predicate = pred;
                 return true;

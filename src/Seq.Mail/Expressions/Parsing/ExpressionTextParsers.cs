@@ -29,7 +29,7 @@ namespace Seq.Mail.Expressions.Parsing
 
         public static readonly TextParser<string> HexInteger =
             Span.EqualTo("0x")
-                .IgnoreThen(Character.Digit.Or(Character.Matching(ch => ch >= 'a' && ch <= 'f' || ch >= 'A' && ch <= 'F', "a-f"))
+                .IgnoreThen(Character.Digit.Or(Character.Matching(ch => ch is >= 'a' and <= 'f' || ch is >= 'A' and <= 'F', "a-f"))
                     .Named("hex digit")
                     .AtLeastOnce())
                 .Select(chars => new string(chars));
