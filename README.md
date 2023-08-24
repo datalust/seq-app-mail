@@ -1,4 +1,4 @@
-# Seq output apps for SMTP and Microsoft365
+# Seq output apps for SMTP and Microsoft365 [![Build status](https://ci.appveyor.com/api/projects/status/6jo5xhyfans07msl/branch/dev?svg=true)](https://ci.appveyor.com/project/datalust/seq-app-mail/branch/dev)
 
 > :warning: **Important:** these apps are under development and not yet suitable for deployment.
 
