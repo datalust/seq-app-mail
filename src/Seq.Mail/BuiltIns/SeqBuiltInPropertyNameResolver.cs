@@ -14,7 +14,7 @@ class SeqBuiltInPropertyNameResolver: NameResolver
             "TraceId" => new AccessorExpression(new AmbientNameExpression(BuiltInProperty.Properties, true), "@tr"),
             "SpanId" => new AccessorExpression(new AmbientNameExpression(BuiltInProperty.Properties, true), "@sp"),
             "Resource" => new AccessorExpression(new AmbientNameExpression(BuiltInProperty.Properties, true), "@ra"),
-            "Arrived" => new CallExpression(false, Operators.OpUndefined),
+            "Arrived" or "Document" or "Data" => new CallExpression(false, Operators.OpUndefined),
             _ => null
         };
 
