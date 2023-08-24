@@ -23,8 +23,10 @@ foreach ($src in ls src/Seq.App.*) {
 
     echo "build: Packaging project in $src"
 
-    rm -Recurse -Force ./obj/publish
-
+    if (Test-Path ./obj/publish) {
+        Remove-Item -Recurse -Force ./obj/publish
+    }
+    
     if ($suffix) {
         & dotnet publish -c Release -o ./obj/publish --version-suffix=$suffix
         & dotnet pack -c Release -o ..\..\artifacts --no-build --version-suffix=$suffix
