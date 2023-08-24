@@ -38,9 +38,9 @@ namespace Seq.Mail.BuiltIns
         {
             target = alias switch
             {
-                "app" => new ConstantExpression(_app),
-                "host" => new ConstantExpression(_host),
-                "settings" => new ConstantExpression(_settings),
+                "App" => new ConstantExpression(_app),
+                "Host" => new ConstantExpression(_host),
+                "Settings" => new ConstantExpression(_settings),
                 _ => null
             };
 

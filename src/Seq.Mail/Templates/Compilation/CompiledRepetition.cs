@@ -23,7 +23,7 @@ namespace Seq.Mail.Templates.Compilation
     {
         readonly Evaluatable _enumerable;
         readonly string? _keyOrElementName;
-        readonly string? _valueName;
+        readonly string? _valueOrIndexName;
         readonly CompiledTemplate _body;
         readonly CompiledTemplate? _delimiter;
         readonly CompiledTemplate? _alternative;
@@ -31,14 +31,14 @@ namespace Seq.Mail.Templates.Compilation
         public CompiledRepetition(
             Evaluatable enumerable,
             string? keyOrElementName,
-            string? valueName,
+            string? valueOrIndexName,
             CompiledTemplate body,
             CompiledTemplate? delimiter,
             CompiledTemplate? alternative)
         {
             _enumerable = enumerable;
             _keyOrElementName = keyOrElementName;
-            _valueName = valueName;
+            _valueOrIndexName = valueOrIndexName;
             _body = body;
             _delimiter = delimiter;
             _alternative = alternative;
@@ -76,8 +76,8 @@ namespace Seq.Mail.Templates.Compilation
                         ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element))
                         : ctx;
 
-                    local = _valueName != null
-                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueName, new ScalarValue(i)))
+                    local = _valueOrIndexName != null
+                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, new ScalarValue(i)))
                         : local;
 
                     _body.Evaluate(local, output);
@@ -106,8 +106,8 @@ namespace Seq.Mail.Templates.Compilation
                         ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, new ScalarValue(member.Name)))
                         : ctx;
 
-                    local = _valueName != null
-                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueName, member.Value))
+                    local = _valueOrIndexName != null
+                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, member.Value))
                         : local;
 
                     _body.Evaluate(local, output);
@@ -134,8 +134,8 @@ namespace Seq.Mail.Templates.Compilation
                         ? new EvaluationContext(ctx.LogEvent, Locals.Set(ctx.Locals, _keyOrElementName, element.Key))
                         : ctx;
 
-                    local = _valueName != null
-                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueName, element.Value))
+                    local = _valueOrIndexName != null
+                        ? new EvaluationContext(local.LogEvent, Locals.Set(local.Locals, _valueOrIndexName, element.Value))
                         : local;
 
                     _body.Evaluate(local, output);

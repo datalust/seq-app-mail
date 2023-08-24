@@ -37,13 +37,13 @@ namespace Seq.Mail
             App app,
             Host host)
         {
-            var builtInNameResolver = new MailAppNameResolver(timeZoneName, dateFormat, app, host);
+            var mailAppNameResolver = new MailAppNameResolver(timeZoneName, dateFormat, app, host);
             
             _from = from;
-            _to = toTemplates.Select(to => CompileTemplate(to, builtInNameResolver)).ToArray();
+            _to = toTemplates.Select(to => CompileTemplate(to, mailAppNameResolver)).ToArray();
             _bodyIsPlainText = bodyIsPlainText;
-            _subject = CompileTemplate(subjectTemplate, builtInNameResolver);
-            _body = CompileTemplate(bodyTemplate, builtInNameResolver, encoder: bodyIsPlainText? new TemplateOutputHtmlEncoder() : null);
+            _subject = CompileTemplate(subjectTemplate, mailAppNameResolver);
+            _body = CompileTemplate(bodyTemplate, mailAppNameResolver, encoder: bodyIsPlainText? new TemplateOutputHtmlEncoder() : null);
         }
 
         static ExpressionTemplate CompileTemplate(string template, NameResolver builtInNameResolver, TemplateOutputEncoder? encoder = null)
@@ -53,6 +53,7 @@ namespace Seq.Mail
                 nameResolver: new OrderedNameResolver(new[]
                 {
                     new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)),
+                    new SeqBuiltInPropertyNameResolver(),
                     builtInNameResolver                     
                 }),
                 encoder: encoder);
