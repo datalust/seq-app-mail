@@ -25,12 +25,14 @@ namespace Seq.Mail
         [SeqAppSetting(
             DisplayName = "To address",
             Syntax = "template",
+            IsInvocationParameter = true,
             HelpText = "The address to send email to. Multiple addresses are separated by " +
                        "commas or semicolons. Template syntax is supported.")]
         public string? To { get; set; }
         
         [SeqAppSetting(
             IsOptional = true,
+            IsInvocationParameter = true,
             Syntax = "template",
             HelpText = "The message subject. Template syntax is supported.")]
         public string? Subject { get; set; }
