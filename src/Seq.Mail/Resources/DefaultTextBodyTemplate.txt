@@ -1,0 +1,8 @@
+[{ToString(InTimeZone(@Timestamp, @App.Settings.TimeZoneName),  @App.Settings.DateTimeFormat)} {@Level:u3}] {@Message}
+{#if @Exception is not null}{@Exception}{#end}{#each rn, rv in @Resource}
+{rn}:
+{rv}{#end}{#each n, v in @Properties}{#if n not in ['@seqid', '@i', '@tr', '@sp', '@ra']}
+{n}:
+{v}{#end}{#end}
+
+Sent by Seq at {@Host.BaseUri}

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using Seq.Mail.Expressions.Runtime;
+using System.Linq;
+using Seq.Apps;
 using Seq.Mail.TimeZones;
+using Seq.Syntax.Expressions.Runtime;
 using Serilog.Events;
+// ReSharper disable ReturnTypeCanBeNotNullable
 
 namespace Seq.Mail.BuiltIns;
 
@@ -73,5 +76,27 @@ public static class MailAppBuiltInFunctions
         }
 
         return new ScalarValue(dt);
+    }
+
+    public static LogEventPropertyValue? MailAppHost(Host host)
+    {
+        return new StructureValue(
+            new[]
+            {
+                new LogEventProperty("BaseUri", new ScalarValue(host.BaseUri)),
+                new LogEventProperty("InstanceName", new ScalarValue(host.BaseUri)),
+            });
+    }
+
+    public static LogEventPropertyValue? MailAppInstance(App app)
+    {
+        return new StructureValue(
+            new[]
+            {
+                new LogEventProperty("Id", new ScalarValue(app.Id)),
+                new LogEventProperty("Title", new ScalarValue(app.Title)),
+                new LogEventProperty("Settings", new StructureValue(
+                    app.Settings.Select(kvp => new LogEventProperty(kvp.Key, new ScalarValue(kvp.Value)))))
+            });
     }
 }

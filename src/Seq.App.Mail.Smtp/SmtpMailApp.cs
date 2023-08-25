@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using Seq.Apps;
@@ -15,7 +14,18 @@ namespace Seq.App.Mail.Smtp;
     Description = "Send events and notifications by email, using SMTP with username/password authentication.")]
 public class SmtpMailApp: MailApp
 {
+    readonly ISmtpMailGateway _mailGateway;
     SmtpOptions? _options;
+
+    internal SmtpMailApp(ISmtpMailGateway mailGateway)
+    {
+        _mailGateway = mailGateway;
+    }
+    
+    public SmtpMailApp()
+        : this (new MailkitMailGateway())
+    {
+    }
         
     [SeqAppSetting(
         HelpText = "The DNS name of the SMTP server.")]
@@ -73,11 +83,6 @@ public class SmtpMailApp: MailApp
 
     protected override async Task SendAsync(MimeMessage message, CancellationToken cancel)
     {
-        using var client = new SmtpClient();             
-        await client.ConnectAsync(_options!.Host, _options.Port, _options.SocketOptions, cancel);
-        if (_options.RequiresAuthentication)
-            await client.AuthenticateAsync(_options.Username, _options.Password, cancel);
-        await client.SendAsync(message, cancel);
-        await client.DisconnectAsync(true, cancel);
+        await _mailGateway.SendAsync(_options!, message, cancel);
     }
 }

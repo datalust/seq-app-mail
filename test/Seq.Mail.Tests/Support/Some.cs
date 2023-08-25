@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Serilog;
 using Serilog.Events;
 using Xunit.Sdk;
@@ -21,10 +20,8 @@ static class Some
     public static LogEvent LogEvent(LogEventLevel level, string messageTemplate = "Hello, world!", params object?[] propertyValues)
     {
         var log = new LoggerConfiguration().CreateLogger();
-        MessageTemplate template;
-        IEnumerable<LogEventProperty> properties;
 #pragma warning disable Serilog004 // Constant MessageTemplate verifier
-        if (!log.BindMessageTemplate(messageTemplate, propertyValues, out template, out properties))
+        if (!log.BindMessageTemplate(messageTemplate, propertyValues, out var template, out var properties))
 #pragma warning restore Serilog004 // Constant MessageTemplate verifier
         {
             throw new XunitException("Template could not be bound.");

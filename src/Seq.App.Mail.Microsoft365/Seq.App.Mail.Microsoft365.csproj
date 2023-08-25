@@ -12,7 +12,12 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/datalust/seq-app-mail</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Seq.Mail.Tests" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Seq.Mail\Seq.Mail.csproj" />

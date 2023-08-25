@@ -1,4 +1,4 @@
-﻿using Seq.Mail.Templates.Encoding;
+﻿using Seq.Syntax.Templates.Encoding;
 
 namespace Seq.Mail.Encoding;
 

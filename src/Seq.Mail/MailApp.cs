@@ -74,7 +74,7 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
             (To ?? throw new ArgumentException("At least one `To` address must be supplied."))
             .Split(',', ';'),
             Subject ?? DefaultSubjectTemplate,
-            Body ?? LoadDefaultBodyTemplate(),
+            Body ?? LoadDefaultBodyTemplate(BodyIsPlainText),
             BodyIsPlainText,
             TimeZoneName ?? PortableTimeZoneInfo.UtcTimeZoneName,
             DateTimeFormat ?? "o",
@@ -90,9 +90,10 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
         await SendAsync(message, default);
     }
         
-    internal static string LoadDefaultBodyTemplate()
+    internal static string LoadDefaultBodyTemplate(bool bodyIsPlainText)
     {
-        var resourceStream = typeof(MailApp).Assembly.GetManifestResourceStream("DefaultBodyTemplate")!;
+        var resourceStream = typeof(MailApp).Assembly.GetManifestResourceStream(
+            bodyIsPlainText ? "DefaultTextBodyTemplate" : "DefaultHtmlBodyTemplate")!;
         return new StreamReader(resourceStream, System.Text.Encoding.UTF8).ReadToEnd();
     }
 }

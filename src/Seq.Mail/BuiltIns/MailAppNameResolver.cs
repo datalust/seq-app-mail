@@ -1,49 +1,56 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Seq.Apps;
-using Seq.Mail.Expressions;
-using Seq.Mail.Expressions.Ast;
-using Serilog.Events;
+using Seq.Syntax.Expressions;
 
 namespace Seq.Mail.BuiltIns;
 
 class MailAppNameResolver: NameResolver
 {
-    readonly LogEventPropertyValue _app, _host, _settings;
+    readonly App _app;
+    readonly Host _host;
         
     public MailAppNameResolver(string timeZoneName, string dateFormat, App app, Host host)
     {
-        _settings = new StructureValue(
-            new[]
-            {
-                new LogEventProperty("TimeZoneName", new ScalarValue(timeZoneName)),
-                new LogEventProperty("DateFormat", new ScalarValue(dateFormat)),
-            });
+        _host = host;
 
-        _app = new StructureValue(
-            new[]
-            {
-                new LogEventProperty("Id", new ScalarValue(app.Id)),
-                new LogEventProperty("Title", new ScalarValue(app.Title))
-            });
-
-        _host = new StructureValue(
-            new[]
-            {
-                new LogEventProperty("BaseUri", new ScalarValue(host.BaseUri)),
-                new LogEventProperty("InstanceName", new ScalarValue(host.BaseUri)),
-            });
+        var settings = new Dictionary<string, string>(app.Settings)
+        {
+            // Override the "real" settings with their defaults
+            [nameof(MailApp.TimeZoneName)] = timeZoneName,
+            [nameof(MailApp.DateTimeFormat)] = dateFormat
+        };
+            
+        _app = new App(app.Id, app.Title, settings, app.StoragePath);
     }
 
-    internal override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out Expression? target)
+    public override bool TryResolveBuiltInPropertyName(string alias, [NotNullWhen(true)] out string? target)
     {
         target = alias switch
         {
-            "App" => new ConstantExpression(_app),
-            "Host" => new ConstantExpression(_host),
-            "Settings" => new ConstantExpression(_settings),
+            "App" => "MailAppInstance()",
+            "Host" => "MailAppHost()",
             _ => null
         };
 
         return target != null;
+    }
+
+    public override bool TryBindFunctionParameter(ParameterInfo parameter, [NotNullWhen(true)] out object? boundValue)
+    {
+        if (parameter.ParameterType == typeof(Host))
+        {
+            boundValue = _host;
+            return true;
+        }
+        
+        if (parameter.ParameterType == typeof(App))
+        {
+            boundValue = _app;
+            return true;
+        }
+        
+        return base.TryBindFunctionParameter(parameter, out boundValue);
     }
 }

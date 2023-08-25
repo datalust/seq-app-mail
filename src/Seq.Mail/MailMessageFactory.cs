@@ -7,10 +7,10 @@ using MimeKit.Text;
 using Seq.Apps;
 using Seq.Mail.BuiltIns;
 using Seq.Mail.Encoding;
-using Seq.Mail.Expressions;
-using Seq.Mail.Expressions.Compilation;
-using Seq.Mail.Templates;
-using Seq.Mail.Templates.Encoding;
+using Seq.Syntax.Expressions;
+using Seq.Syntax.Expressions.Compilation;
+using Seq.Syntax.Templates;
+using Seq.Syntax.Templates.Encoding;
 using Serilog.Events;
 using Serilog.Formatting;
 
@@ -53,7 +53,6 @@ class MailMessageFactory
             nameResolver: new OrderedNameResolver(new[]
             {
                 new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)),
-                new SeqBuiltInPropertyNameResolver(),
                 builtInNameResolver                     
             }),
             encoder: encoder);
