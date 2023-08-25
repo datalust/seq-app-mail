@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Identity;
-using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using MimeKit;
 using Seq.Apps;
@@ -17,8 +15,19 @@ namespace Seq.App.Mail.Microsoft365;
     Description = "Send events and notifications by email, using Microsoft 365.")]
 public class Microsoft365MailApp: MailApp
 {
+    readonly IMicrosoftGraphMailGateway _mailGateway;
     Microsoft365Options? _options;
-        
+
+    internal Microsoft365MailApp(IMicrosoftGraphMailGateway mailGateway)
+    {
+        _mailGateway = mailGateway;
+    }
+    
+    public Microsoft365MailApp()
+        : this (new GraphClientMailGateway())
+    {
+    }
+
     [SeqAppSetting(
         DisplayName = "Tenant id",
         HelpText = "The directory (tenant) id that will be used to send mail.")]
@@ -54,12 +63,6 @@ public class Microsoft365MailApp: MailApp
 
     protected override async Task SendAsync(MimeMessage message, CancellationToken cancel)
     {
-        // This implementation follows the article at:
-        //   https://medium.com/medialesson/how-to-send-emails-in-net-with-the-microsoft-graph-a97b57430bbd
-            
-        var credential = new ClientSecretCredential(_options!.TenantId, _options.ClientId, _options.ClientSecret);
-        using var graphClient = new GraphServiceClient(credential);
-
         var graphMessage = new Message
         {
             Subject = message.Subject,
@@ -79,9 +82,7 @@ public class Microsoft365MailApp: MailApp
                 }).ToList()
         };
 
-        await graphClient.Users[From]
-            .SendMail
-            .PostAsync(new() { Message = graphMessage, SaveToSentItems = _options.SaveToSentItems }, cancellationToken: cancel);
+        await _mailGateway.SendAsync(_options!, graphMessage, cancel);
     }
 
     static EmailAddress AsGraphEmailAddress(InternetAddress address)
