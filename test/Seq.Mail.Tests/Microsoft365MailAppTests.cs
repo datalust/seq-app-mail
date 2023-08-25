@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MailKit.Security;
 using Microsoft.Graph.Models;
 using Seq.App.Mail.Microsoft365;
-using Seq.App.Mail.Smtp;
 using Seq.Apps;
 using Seq.Mail.Tests.Support;
 using Serilog.Events;
