@@ -551,4 +551,12 @@ static class RuntimeOperators
 
         return null;
     }
+    
+    public static LogEventPropertyValue? UriEncode(LogEventPropertyValue? value)
+    {
+        if (Coerce.String(value, out var s))
+            return new ScalarValue(Uri.EscapeDataString(s));
+
+        return null;
+    }
 }
