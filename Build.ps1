@@ -21,7 +21,7 @@ echo "build: Version suffix is $suffix"
 foreach ($src in ls src/Seq.App.*) {
     Push-Location $src
 
-    echo "build: Packaging project in $src"
+    echo "build: Packaging app project in $src"
 
     if (Test-Path ./obj/publish) {
         Remove-Item -Recurse -Force ./obj/publish
@@ -33,6 +33,21 @@ foreach ($src in ls src/Seq.App.*) {
     } else {
         & dotnet publish -c Release -o ./obj/publish
         & dotnet pack -c Release -o ..\..\artifacts --no-build
+    }
+    if($LASTEXITCODE -ne 0) { exit 1 }    
+
+    Pop-Location
+}
+
+foreach ($src in @("src/Seq.Syntax", "src/Seq.Mail")) {
+    Push-Location $src
+
+    echo "build: Packaging library in $src"
+    
+    if ($suffix) {
+        & dotnet pack -c Release -o ..\..\artifacts --version-suffix=$suffix
+    } else {
+        & dotnet pack -c Release -o ..\..\artifacts
     }
     if($LASTEXITCODE -ne 0) { exit 1 }    
 

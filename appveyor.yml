@@ -5,12 +5,20 @@ build_script:
   - pwsh: ./Build.ps1
 test: off
 artifacts:
-  - path: artifacts/Seq.App.*.nupkg
+  - path: artifacts/Seq.*.nupkg
 deploy:
   - provider: NuGet
     api_key:
       secure: o5zqGNFtcQztPNdUkaYLm+r2UvPz7LHW7dm4DYpcOAtmUXrVtcctPW6s5ARQ7XHD
     skip_symbols: true
+    artifact: /Seq.App.*\.nupkg/
+    on:
+      branch: /^(main|dev)$/
+  - provider: NuGet
+    api_key:
+      secure: UZN5e9OheyD5NnDWD+4DniYoATDUzO04NleRhvUwTRGSHzmX36P6s1SKf7lurrwe
+    skip_symbols: true
+    artifact: /Seq.Syntax.*\.nupkg/
     on:
       branch: /^(main|dev)$/
   - provider: GitHub
