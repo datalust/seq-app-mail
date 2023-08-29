@@ -13,7 +13,7 @@ public enum ProtocolSecurity
     [Description("Require that the server support TLS implicitly (TLS-on-connect).")]
     RequireImplicitTls,
         
-    [Description("Do not require TLS. The connection will allow TLS if supported by the server, but all protocol security " +
+    [Description("Do not require TLS. The connection may use TLS if supported by the server, but all protocol security " +
                  "features will be disabled.")]
     None
 }
