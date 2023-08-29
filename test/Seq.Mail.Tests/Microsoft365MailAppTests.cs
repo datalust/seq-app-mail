@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph.Models;
 using Seq.App.Mail.Microsoft365;
 using Seq.Apps;
+using Seq.Apps.Testing.Hosting;
 using Seq.Mail.Tests.Support;
 using Serilog.Events;
 using Xunit;

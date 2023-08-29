@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MailKit.Security;
 using Seq.App.Mail.Smtp;
 using Seq.Apps;
+using Seq.Apps.Testing.Hosting;
 using Seq.Mail.Tests.Support;
 using Serilog.Events;
 using Xunit;

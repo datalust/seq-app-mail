@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Description>Helper types for development and debugging of Seq plug-in apps.</Description>
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <Authors>Datalust</Authors>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageIcon>seq-apps-testing.png</PackageIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Seq.Apps" Version="2021.4.0" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+        <PackageReference Include="Serilog.Formatting.Compact.Reader" Version="2.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <None Include="../../asset/seq-apps-testing.png" Pack="true" Visible="false" PackagePath="" />
+    </ItemGroup>
+    
+</Project>

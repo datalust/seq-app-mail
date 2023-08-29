@@ -21,6 +21,13 @@ deploy:
     artifact: /Seq.Syntax.*\.nupkg/
     on:
       branch: /^(main|dev)$/
+  - provider: NuGet
+    api_key:
+      secure: vJ+K5rgupkweNZLeKOQ41Ocp4Jze17+vUWIyRK4pVZaexKWIwX5JnFYAAO+E5yWw
+    skip_symbols: true
+    artifact: /Seq.Apps.Testing.*\.nupkg/
+    on:
+      branch: /^(main|dev)$/
   - provider: GitHub
     auth_token:
       secure: hX+cZmW+9BCXy7vyH8myWsYdtQHyzzil9K5yvjJv7dK9XmyrGYYDj/DPzMqsXSjo

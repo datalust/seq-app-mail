@@ -17,5 +17,6 @@
     <ProjectReference Include="..\..\src\Seq.App.Mail.Microsoft365\Seq.App.Mail.Microsoft365.csproj" />
     <ProjectReference Include="..\..\src\Seq.App.Mail.Smtp\Seq.App.Mail.Smtp.csproj" />
     <ProjectReference Include="..\..\src\Seq.Mail\Seq.Mail.csproj" />
+    <ProjectReference Include="..\..\src\Seq.Apps.Testing\Seq.Apps.Testing.csproj" />
   </ItemGroup>
 </Project>
