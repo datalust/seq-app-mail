@@ -23,7 +23,7 @@ deploy:
       branch: /^(main|dev)$/
   - provider: NuGet
     api_key:
-      secure: vJ+K5rgupkweNZLeKOQ41Ocp4Jze17+vUWIyRK4pVZaexKWIwX5JnFYAAO+E5yWw
+      secure: b8qC2BhVYeA/K8y1vfdwguOzoINxkJ5vTjg2rCbuo7iRsZMShw/ZJBLs6GFgxI4p
     skip_symbols: true
     artifact: /Seq.Apps.Testing.*\.nupkg/
     on:
