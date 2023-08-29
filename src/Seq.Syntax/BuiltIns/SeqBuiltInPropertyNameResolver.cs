@@ -9,7 +9,7 @@ class SeqBuiltInPropertyNameResolver: NameResolver
     {
         target = alias switch
         {
-            "Properties" => "@p",
+            "Properties" => "{..@p, @seqid: undefined(), @i: undefined(), @tr: undefined(), @sp: undefined(), @ra: undefined()}",
             "Timestamp" => "@t",
             "Level" => "@l",
             "Message" => "@m",

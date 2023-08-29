@@ -39,7 +39,7 @@ foreach ($src in ls src/Seq.App.*) {
     Pop-Location
 }
 
-foreach ($src in @("src/Seq.Syntax", "src/Seq.Mail")) {
+foreach ($src in @("src/Seq.Syntax", "src/Seq.Mail", "src/Seq.Apps.Testing")) {
     Push-Location $src
 
     echo "build: Packaging library in $src"

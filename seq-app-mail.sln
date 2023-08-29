@@ -21,6 +21,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{AC60371C-2888-45BB-9770-2A690DEA80FA}"
 	ProjectSection(SolutionItems) = preProject
 		asset\seq-app-mail.png = asset\seq-app-mail.png
+		asset\seq-mail.png = asset\seq-mail.png
+		asset\seq-syntax.png = asset\seq-syntax.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Mail", "src\Seq.Mail\Seq.Mail.csproj", "{A529BBDE-3484-4913-9160-681A9D6BD09A}"
@@ -34,6 +36,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Syntax", "src\Seq.Syntax\Seq.Syntax.csproj", "{AFB27DF3-BCB7-4CAE-9951-270B5319B61E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Syntax.Tests", "test\Seq.Syntax.Tests\Seq.Syntax.Tests.csproj", "{A836BDA9-335E-49E1-AA68-DA3D8B6DABA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Apps.Testing", "src\Seq.Apps.Testing\Seq.Apps.Testing.csproj", "{7E46171B-8E2F-42EB-8C10-526578F9BED0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "harness", "harness", "{E684AE47-A861-44F3-A648-A512652ED9C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Mail.TestHarness", "harness\Seq.Mail.TestHarness\Seq.Mail.TestHarness.csproj", "{53B48FC5-E76D-4442-9259-DB57CDB53232}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +73,14 @@ Global
 		{A836BDA9-335E-49E1-AA68-DA3D8B6DABA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A836BDA9-335E-49E1-AA68-DA3D8B6DABA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A836BDA9-335E-49E1-AA68-DA3D8B6DABA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E46171B-8E2F-42EB-8C10-526578F9BED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E46171B-8E2F-42EB-8C10-526578F9BED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E46171B-8E2F-42EB-8C10-526578F9BED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E46171B-8E2F-42EB-8C10-526578F9BED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53B48FC5-E76D-4442-9259-DB57CDB53232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B48FC5-E76D-4442-9259-DB57CDB53232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B48FC5-E76D-4442-9259-DB57CDB53232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B48FC5-E76D-4442-9259-DB57CDB53232}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +92,8 @@ Global
 		{1A4641A3-2E55-4C16-AB9B-D9E5EAD71107} = {B03B3086-D197-4B32-9AE2-8536C345EA2D}
 		{AFB27DF3-BCB7-4CAE-9951-270B5319B61E} = {91E482DE-E1E7-4CE1-9511-C0AF07F3648A}
 		{A836BDA9-335E-49E1-AA68-DA3D8B6DABA0} = {B03B3086-D197-4B32-9AE2-8536C345EA2D}
+		{7E46171B-8E2F-42EB-8C10-526578F9BED0} = {91E482DE-E1E7-4CE1-9511-C0AF07F3648A}
+		{53B48FC5-E76D-4442-9259-DB57CDB53232} = {E684AE47-A861-44F3-A648-A512652ED9C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB6672D6-318E-493E-8B60-77F5A7A90E66}

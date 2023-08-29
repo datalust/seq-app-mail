@@ -109,14 +109,10 @@
                     </div>
                 {#end}
                 {#each n, v in @Properties}
-                    {#if n in ['@seqid', '@i', '@tr', '@sp', '@ra']}
-                        <!-- property {n} ignored -->
-                    {#else}
-                        <div style="margin-top:10px;">
-                            <div style="font-family:monospace;font-weight:bold;">{n}</div>
-                            <div style="font-family:monospace;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;">{v}</div>
-                        </div>
-                    {#end}
+                    <div style="margin-top:10px;">
+                        <div style="font-family:monospace;font-weight:bold;">{n}</div>
+                        <div style="font-family:monospace;overflow-wrap:break-word;white-space:pre;white-space:pre-wrap;">{v}</div>
+                    </div>
                 {#end}
                 {#if @Exception is not null}
                     <div style="margin-top:10px;">
