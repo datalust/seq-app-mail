@@ -122,7 +122,10 @@ style contexts, in which no safe escaping is possible.
 
 ## Development
 
-To run the simple SMTP version of the app locally, without installing it into Seq, build with `Build.ps1` then 
+The `harness/Seq.Mail.TestHarness` project is a simple console application that enables local/interactive app debugging
+using Serilog to generate events.
+
+To run the apps locally under the production app host, but, without installing them into Seq, build with `Build.ps1` then 
 pipe `seqcli tail` output from your Seq instance to `RunLocalSmtp.ps1`:
 
 ```
