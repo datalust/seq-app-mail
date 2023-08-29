@@ -23,7 +23,7 @@ deploy:
       branch: /^(main|dev)$/
   - provider: NuGet
     api_key:
-      secure: b8qC2BhVYeA/K8y1vfdwguOzoINxkJ5vTjg2rCbuo7iRsZMShw/ZJBLs6GFgxI4p
+      secure: WsFbxKsRUnKsh8DJCYLdWkoqxhSFcQJhOGNghjKtyL3nVQ8z9mOWWQVbSR9YaH+8
     skip_symbols: true
     artifact: /Seq.Apps.Testing.*\.nupkg/
     on:
@@ -31,7 +31,7 @@ deploy:
   - provider: GitHub
     auth_token:
       secure: hX+cZmW+9BCXy7vyH8myWsYdtQHyzzil9K5yvjJv7dK9XmyrGYYDj/DPzMqsXSjo
-    artifact: /Seq.App.*\.nupkg/
+    artifact: /Seq.*\.nupkg/
     tag: v$(appveyor_build_version)
     on:
       branch: main
