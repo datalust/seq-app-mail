@@ -69,16 +69,19 @@ public class SmtpMailApp: MailApp
             ProtocolSecurity.RequireTls => port == 465 ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTls,
             ProtocolSecurity.RequireStartTls => SecureSocketOptions.StartTls,
             ProtocolSecurity.RequireImplicitTls => SecureSocketOptions.SslOnConnect,
-            ProtocolSecurity.None => SecureSocketOptions.None,
+            ProtocolSecurity.None => SecureSocketOptions.Auto,
             _ => throw new ArgumentOutOfRangeException()
         };
+
+        var disableCertificateValidation = ProtocolSecurity == ProtocolSecurity.None;
 
         _options = new SmtpOptions(
             Host,
             port,
             socketOptions,
             Username,
-            Password);
+            Password,
+            disableCertificateValidation);
     }
 
     protected override async Task SendAsync(MimeMessage message, CancellationToken cancel)

@@ -44,6 +44,7 @@ public class SmtpMailAppTests
         Assert.Equal("h", options.Host);
         Assert.Equal(123, options.Port);
         Assert.Equal(SecureSocketOptions.SslOnConnect, options.SocketOptions);
+        Assert.False(options.DisableCertificateValidation);
         Assert.Equal("u", options.Username);
         Assert.Equal("p", options.Password);
         Assert.Equal("f@localhost", message.From.ToString());
@@ -51,5 +52,29 @@ public class SmtpMailAppTests
         Assert.Equal("s", message.Subject);
         Assert.Equal("b", message.HtmlBody.Trim());
         Assert.Null(message.TextBody);
+    }
+
+    [Fact]
+    public async Task WhenProtocolSecurityIsNoneCertificateValidationIsSkipped()
+    {
+        var gateway = new TestSmtpMailGateway();
+            
+        var app = new SmtpMailApp(gateway)
+        {
+            ProtocolSecurity = ProtocolSecurity.None,
+            Host = "h",
+            From = "f@localhost",
+            To = "t@localhost,r@localhost",
+        };
+
+        app.Attach(new TestAppHost());
+
+        var evt = Some.InformationEvent();
+
+        await app.OnAsync(new Event<LogEvent>("event-1", 123, DateTime.UtcNow, evt));
+
+        var (options, _) = Assert.Single(gateway.Received);
+        
+        Assert.True(options.DisableCertificateValidation);
     }
 }
