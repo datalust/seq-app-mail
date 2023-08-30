@@ -1,4 +1,4 @@
-[{ToString(InTimeZone(@Timestamp, @App.Settings.TimeZoneName),  @App.Settings.DateTimeFormat)} {@Level:u3}] {@Message}
+[{ToString(InTimeZone(@Timestamp, @App.Settings.TimeZoneName),  @App.Settings.DateTimeFormat)} {@l:u3}] {@Message}
 {#if @Exception is not null}{@Exception}{#end}{#each rn, rv in @Resource}
 {rn}:
 {rv}{#end}{#each n, v in @Properties}
