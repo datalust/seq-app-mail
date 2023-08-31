@@ -43,7 +43,7 @@ class MailMessageFactory
         _to = toTemplates.Select(to => CompileTemplate(to, mailAppNameResolver)).ToArray();
         _bodyIsPlainText = bodyIsPlainText;
         _subject = CompileTemplate(subjectTemplate, mailAppNameResolver);
-        _body = CompileTemplate(bodyTemplate, mailAppNameResolver, encoder: bodyIsPlainText? new TemplateOutputHtmlEncoder() : null);
+        _body = CompileTemplate(bodyTemplate, mailAppNameResolver, encoder: bodyIsPlainText ? null : new TemplateOutputHtmlEncoder());
     }
 
     static ExpressionTemplate CompileTemplate(string template, NameResolver builtInNameResolver, TemplateOutputEncoder? encoder = null)
