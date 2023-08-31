@@ -15,9 +15,11 @@ class MailAppNameResolver: NameResolver
     {
         _host = host;
 
-        var settings = new Dictionary<string, string>(app.Settings)
+        // It turned out that passing all of the "real" settings here was a questionable idea,
+        // because they're not consistently cased (e.g. at runtime they're uppercase, but this
+        // isn't guaranteed).
+        var settings = new Dictionary<string, string>
         {
-            // Override the "real" settings with their defaults
             [nameof(MailApp.TimeZoneName)] = timeZoneName,
             [nameof(MailApp.DateTimeFormat)] = dateFormat
         };
