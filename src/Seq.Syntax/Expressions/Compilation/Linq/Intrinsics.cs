@@ -80,8 +80,8 @@ static class Intrinsics
 
     public static LogEventPropertyValue ConstructStructureValue(List<LogEventProperty> properties)
     {
-        if (properties.Any(p => p == null || p.Value == Tombstone))
-            return new StructureValue(properties.Where(p => p != null && p.Value != Tombstone));
+        if (properties.Any(p => p == null! || p.Value == Tombstone))
+            return new StructureValue(properties.Where(p => p != null! && p.Value != Tombstone));
 
         return new StructureValue(properties);
     }
@@ -93,7 +93,7 @@ static class Intrinsics
         if (content is StructureValue structure)
         {
             foreach (var property in structure.Properties)
-                if (property != null)
+                if (property != null!)
                     properties.Add(property);
         }
 
@@ -201,5 +201,17 @@ static class Intrinsics
         }
 
         return elements == null ? null : new SequenceValue(elements);
+    }
+
+    public static LogEventPropertyValue GetEventId(LogEvent logEvent)
+    {
+        if (logEvent.Properties.TryGetValue("@i", out var atI) &&
+            atI is ScalarValue { Value: string hex } &&
+            uint.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var i))
+        {
+            return new ScalarValue(i);
+        }
+        
+        return new ScalarValue(EventIdHash.Compute(logEvent.MessageTemplate.Text));
     }
 }
