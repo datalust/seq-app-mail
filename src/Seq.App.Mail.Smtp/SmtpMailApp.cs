@@ -57,9 +57,6 @@ public class SmtpMailApp: MailApp
 
     protected override void OnAttached()
     {
-        if (string.IsNullOrEmpty(Host))
-            throw new ArgumentException("The `Host` setting is required.");
-            
         base.OnAttached();
 
         var port = Port ?? 25;
@@ -76,7 +73,7 @@ public class SmtpMailApp: MailApp
         var disableCertificateValidation = ProtocolSecurity == ProtocolSecurity.None;
 
         _options = new SmtpOptions(
-            Host,
+            NormalizeOption(Host) ?? throw new ArgumentException("The `Host` setting is required."),
             port,
             socketOptions,
             Username,

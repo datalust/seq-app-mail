@@ -70,14 +70,13 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
     protected override void OnAttached()
     {
         _mailMessageFactory = new MailMessageFactory(
-            MailboxAddress.Parse(From ?? throw new ArgumentException("A `From` address must be supplied.")),
-            (To ?? throw new ArgumentException("At least one `To` address must be supplied."))
-            .Split(',', ';'),
-            Subject ?? DefaultSubjectTemplate,
-            Body ?? LoadDefaultBodyTemplate(BodyIsPlainText),
+            MailboxAddress.Parse(NormalizeOption(From) ?? throw new ArgumentException("A `From` address must be supplied.")),
+            (NormalizeOption(To) ?? throw new ArgumentException("At least one `To` address must be supplied.")).Split(',', ';'),
+            NormalizeOption(Subject) ?? DefaultSubjectTemplate,
+            NormalizeOption(Body) ?? LoadDefaultBodyTemplate(BodyIsPlainText),
             BodyIsPlainText,
-            TimeZoneName ?? PortableTimeZoneInfo.UtcTimeZoneName,
-            DateTimeFormat ?? "o",
+            NormalizeOption(TimeZoneName) ?? PortableTimeZoneInfo.UtcTimeZoneName,
+            NormalizeOption(DateTimeFormat) ?? "o",
             App,
             Host);
     }
@@ -96,4 +95,6 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
             bodyIsPlainText ? "DefaultTextBodyTemplate" : "DefaultHtmlBodyTemplate")!;
         return new StreamReader(resourceStream, System.Text.Encoding.UTF8).ReadToEnd();
     }
+
+    protected static string? NormalizeOption(string? s) => s == "" ? null : s;
 }

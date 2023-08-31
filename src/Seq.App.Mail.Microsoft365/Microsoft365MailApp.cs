@@ -55,9 +55,9 @@ public class Microsoft365MailApp: MailApp
         base.OnAttached();
 
         _options = new Microsoft365Options(
-            TenantId ?? throw new InvalidOperationException("A tenant id is required."),
-            ClientId ?? throw new InvalidOperationException("A client id is required."),
-            ClientSecret ?? throw new InvalidOperationException("A client secret is required."),
+            NormalizeOption(TenantId) ?? throw new InvalidOperationException("A tenant id is required."),
+            NormalizeOption(ClientId) ?? throw new InvalidOperationException("A client id is required."),
+            NormalizeOption(ClientSecret) ?? throw new InvalidOperationException("A client secret is required."),
             SaveToSentItems);
     }
 

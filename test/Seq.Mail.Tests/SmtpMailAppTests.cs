@@ -37,7 +37,6 @@ public class SmtpMailAppTests
         app.Attach(new TestAppHost());
 
         var evt = Some.InformationEvent();
-
         await app.OnAsync(new Event<LogEvent>("event-1", 123, DateTime.UtcNow, evt));
 
         var (options, message) = Assert.Single(gateway.Received);
@@ -55,7 +54,7 @@ public class SmtpMailAppTests
     }
 
     [Fact]
-    public async Task WhenProtocolSecurityIsNoneCertificateValidationIsSkipped()
+    public async Task WhenProtocolSecurityIsNoneOptionsSkipCertificateValidation()
     {
         var gateway = new TestSmtpMailGateway();
             
@@ -70,11 +69,31 @@ public class SmtpMailAppTests
         app.Attach(new TestAppHost());
 
         var evt = Some.InformationEvent();
-
         await app.OnAsync(new Event<LogEvent>("event-1", 123, DateTime.UtcNow, evt));
 
         var (options, _) = Assert.Single(gateway.Received);
         
         Assert.True(options.DisableCertificateValidation);
+    }
+
+    [Fact]
+    public async Task EmptyTimeZoneNameDoesNotCrashApp()
+    {
+        var gateway = new TestSmtpMailGateway();
+            
+        var app = new SmtpMailApp(gateway)
+        {
+            Host = "h",
+            From = "f@localhost",
+            To = "t@localhost,r@localhost",
+            TimeZoneName = ""
+        };
+
+        app.Attach(new TestAppHost());
+
+        var evt = Some.InformationEvent();
+        await app.OnAsync(new Event<LogEvent>("event-1", 123, DateTime.UtcNow, evt));
+
+        Assert.Single(gateway.Received);
     }
 }
