@@ -24,9 +24,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Seq.Apps" Version="2023.4.0" />
-    <PackageReference Include="Azure.Identity" Version="1.10.4" />
-    <PackageReference Include="Microsoft.Graph" Version="5.36.0" />
+    <PackageReference Include="Seq.Apps" Version="2021.4.0" />
+    <PackageReference Include="Azure.Identity" Version="1.10.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.23.0" />
   </ItemGroup>
 
   <ItemGroup>

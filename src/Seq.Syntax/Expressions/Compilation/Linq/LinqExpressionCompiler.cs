@@ -219,8 +219,6 @@ class LinqExpressionCompiler : SerilogExpressionTransformer<ExpressionBody>
                         null)),
                 BuiltInProperty.Renderings => Splice(context => Intrinsics.GetRenderings(context.LogEvent, formatProvider)),
                 BuiltInProperty.EventId => Splice(context => Intrinsics.GetEventId(context.LogEvent)),
-                BuiltInProperty.TraceId => Splice(context => new ScalarValue(context.LogEvent.TraceId)),
-                BuiltInProperty.SpanId => Splice(context => new ScalarValue(context.LogEvent.SpanId)),
                 var alias when _nameResolver.TryResolveBuiltInPropertyName(alias, out var target) =>
                     Transform(ExpressionCompiler.Translate(new ExpressionParser().Parse(target))),
                 _ => LX.Constant(null, typeof(LogEventPropertyValue))
