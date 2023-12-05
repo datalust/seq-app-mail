@@ -17,10 +17,9 @@ class SeqBuiltInPropertyNameResolver: NameResolver
             "EventType" => "@i",
             "Exception" => "@x",
             "Id" => "@p['@seqid']",
-            "TraceId" => "@tr",
-            "SpanId" => "@sp",
+            "TraceId" or "@tr" => "@p['@tr']",
+            "SpanId" or "@sp" => "@p['@sp']",
             "Resource" or "@ra" => "@p['@ra']",
-            "ParentId" or "@ps" => "@p['@ps']",
             "Arrived" or "Document" or "Data" => "undefined()",
             _ => null
         };

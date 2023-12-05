@@ -25,6 +25,4 @@ static class BuiltInProperty
     public const string Properties = "p";
     public const string Renderings = "r";
     public const string EventId = "i";
-    public const string TraceId = "tr";
-    public const string SpanId = "sp";
 }
