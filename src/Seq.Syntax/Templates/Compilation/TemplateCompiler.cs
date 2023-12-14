@@ -15,6 +15,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using Seq.Syntax.BuiltIns;
 using Seq.Syntax.Expressions;
 using Seq.Syntax.Expressions.Ast;
 using Seq.Syntax.Expressions.Compilation;
@@ -32,7 +33,7 @@ static class TemplateCompiler
         return template switch
         {
             LiteralText text => new CompiledLiteralText(text.Text),
-            FormattedExpression { Expression: AmbientNameExpression { IsBuiltIn: true, PropertyName: BuiltInProperty.Level} } level =>
+            FormattedExpression { Expression: AmbientNameExpression { IsBuiltIn: true, PropertyName: BuiltInProperty.Level } } level =>
                 encoder.Wrap(new CompiledLevelToken(level.Format, level.Alignment)),
             FormattedExpression
             {

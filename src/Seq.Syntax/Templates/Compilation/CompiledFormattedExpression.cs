@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using Seq.Syntax.Expressions;
+using Seq.Syntax.Expressions.Runtime;
 using Seq.Syntax.Templates.Rendering;
 using Serilog.Events;
 using Serilog.Formatting.Json;
@@ -26,13 +27,13 @@ class CompiledFormattedExpression : CompiledTemplate
 {
     readonly JsonValueFormatter _jsonFormatter;
     readonly Evaluatable _expression;
-    readonly string? _format;
+    readonly ScalarValue _format;
     readonly Alignment? _alignment;
     readonly IFormatProvider? _formatProvider;
     public CompiledFormattedExpression(Evaluatable expression, string? format, Alignment? alignment, IFormatProvider? formatProvider)
     {
         _expression = expression ?? throw new ArgumentNullException(nameof(expression));
-        _format = format;
+        _format = new ScalarValue(format);
         _alignment = alignment;
         _formatProvider = formatProvider;
         _jsonFormatter = new JsonValueFormatter("$type");
@@ -60,13 +61,12 @@ class CompiledFormattedExpression : CompiledTemplate
 
         if (value is ScalarValue scalar)
         {
-            if (scalar.Value is null)
-                return; // Null is empty
+            var runtimeResult = RuntimeOperators.ToString(formatProvider, scalar, _format);
+            
+            if (runtimeResult is not ScalarValue { Value: string toString })
+                return; // No distinction made here between invalid values and those that return `null` from `ToString`.
 
-            if (scalar.Value is IFormattable fmt)
-                output.Write(fmt.ToString(_format, formatProvider));
-            else
-                output.Write(scalar.Value.ToString());
+            output.Write(toString);
         }
         else
         {
