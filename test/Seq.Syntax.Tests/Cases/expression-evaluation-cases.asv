@@ -299,3 +299,6 @@ uriencode(null)                      ⇶ undefined()
 uriencode(undefined())               ⇶ undefined()
 uriencode('')                        ⇶ ''
 uriencode(' ')                       ⇶ '%20'
+
+tostring(@l, 'u3')                   ⇶ 'INF'
+tostring(@Elapsed)                   ⇶ '00:10:00'

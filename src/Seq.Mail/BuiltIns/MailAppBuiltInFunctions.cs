@@ -11,23 +11,6 @@ namespace Seq.Mail.BuiltIns;
 
 public static class MailAppBuiltInFunctions
 {
-    public static LogEventPropertyValue? ToString(LogEventPropertyValue? value, LogEventPropertyValue? format)
-    {
-        if (value is not ScalarValue { Value: {} sv } ||
-            format is not null and not ScalarValue { Value: string })
-        {
-            return null;
-        }
-
-        if (sv is IFormattable formattable && format is ScalarValue { Value: string f })
-        {
-            // Culture may end up having to be selectable.
-            return new ScalarValue(formattable.ToString(f, CultureInfo.InvariantCulture));
-        }
-
-        return new ScalarValue(sv.ToString());
-    }
-        
     public static LogEventPropertyValue? UriEncode(LogEventPropertyValue? value)
     {
         if (Coerce.String(value, out var s))

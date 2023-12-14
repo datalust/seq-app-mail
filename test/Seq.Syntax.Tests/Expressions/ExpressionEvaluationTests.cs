@@ -26,6 +26,8 @@ public class ExpressionEvaluationTests
                 new LogEventProperty("Id", new ScalarValue(42)),
                 new LogEventProperty("Name", new ScalarValue("nblumhardt")),
             })));
+        
+        evt.AddPropertyIfAbsent(new LogEventProperty("@st", new ScalarValue((evt.Timestamp - TimeSpan.FromMinutes(10)).ToString("o"))));
 
         var frFr = CultureInfo.GetCultureInfoByIetfLanguageTag("fr-FR");
         var actual = SerilogExpression.Compile(expr, formatProvider: frFr)(evt);
