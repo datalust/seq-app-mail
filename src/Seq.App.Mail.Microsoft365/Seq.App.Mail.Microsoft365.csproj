@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <Description>Send events and notifications from Seq via Microsoft 365 mail.</Description>
-    <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>Datalust, Serilog Contributors</Authors>
     <PackageTags>seq-app microsoft-365 email</PackageTags>
     <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>

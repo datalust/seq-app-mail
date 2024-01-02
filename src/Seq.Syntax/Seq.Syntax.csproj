@@ -4,7 +4,6 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <Description>Template and expression evaluation using a syntax based on the Seq query language.</Description>
-        <VersionPrefix>1.0.0</VersionPrefix>
         <Authors>Datalust</Authors>
         <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>
         <PackageIcon>seq-syntax.png</PackageIcon>
