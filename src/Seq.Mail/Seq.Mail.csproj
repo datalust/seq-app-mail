@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Description>Shared infrastructure for Seq apps that integrate with email and similar messaging services.</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Datalust</Authors>
+    <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>
+    <PackageIcon>seq-mail.png</PackageIcon>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/datalust/seq-app-mail</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Seq.Mail.Tests" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="../Seq.Syntax/Seq.Syntax.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="mailkit" Version="4.3.0" />
+    <PackageReference Include="Superpower" Version="3.0.0" />
+    <PackageReference Include="Seq.Apps" Version="2023.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../asset/seq-mail.png" Pack="true" Visible="false" PackagePath="" />
+    <EmbeddedResource Include="./Resources/DefaultHtmlBodyTemplate.html" LogicalName="DefaultHtmlBodyTemplate" />
+    <EmbeddedResource Include="./Resources/DefaultTextBodyTemplate.txt" LogicalName="DefaultTextBodyTemplate" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Description>Send events and notifications from Seq via Microsoft 365 mail.</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Datalust, Serilog Contributors</Authors>
+    <PackageTags>seq-app microsoft-365 email</PackageTags>
+    <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>
+    <PackageIcon>seq-app-mail.png</PackageIcon>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/datalust/seq-app-mail</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Seq.Mail.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Seq.Mail\Seq.Mail.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Seq.Apps" Version="2023.4.0" />
+    <PackageReference Include="Azure.Identity" Version="1.10.4" />
+    <PackageReference Include="Microsoft.Graph" Version="5.36.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../asset/seq-app-mail.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="./obj/publish/**/*" Exclude="./obj/publish/$(MSBuildProjectName).dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
+  </ItemGroup>
+  
+</Project>
