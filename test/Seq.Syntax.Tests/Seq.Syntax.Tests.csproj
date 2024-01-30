@@ -11,7 +11,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="xunit" Version="2.6.2" />
-        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="2.0.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Seq.Syntax\Seq.Syntax.csproj" />
