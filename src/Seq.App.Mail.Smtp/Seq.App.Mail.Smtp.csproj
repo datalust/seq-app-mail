@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <Description>Send events and notifications from Seq via SMTP mail.</Description>
-    <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>Datalust, Serilog Contributors</Authors>
     <PackageTags>seq-app smtp email</PackageTags>
     <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>

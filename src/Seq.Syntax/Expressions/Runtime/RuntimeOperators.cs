@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Seq.Syntax.Expressions.Compilation.Linq;
+using Seq.Syntax.Templates.Rendering;
 using Serilog.Events;
 
 // ReSharper disable ForCanBeConvertedToForeach, InvertIf, MemberCanBePrivate.Global, UnusedMember.Global, InconsistentNaming, ReturnTypeCanBeNotNullable
@@ -501,16 +502,13 @@ static class RuntimeOperators
         {
             return null;
         }
-
-        string? toString;
-        if (sv.Value is IFormattable formattable)
+        
+        var toString = sv.Value switch
         {
-            toString = formattable.ToString(fmt, formatProvider);
-        }
-        else
-        {
-            toString = sv.Value.ToString();
-        }
+            LogEventLevel level => LevelRenderer.GetLevelMoniker(level, fmt),
+            IFormattable formattable => formattable.ToString(fmt, formatProvider),
+            _ => sv.Value.ToString()
+        };
 
         return new ScalarValue(toString);
     }
