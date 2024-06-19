@@ -20,7 +20,7 @@
     <ItemGroup>
         <None Include="../../asset/seq-syntax.png" Pack="true" Visible="false" PackagePath="" />
         <PackageReference Include="Superpower" Version="3.0.0" />
-        <PackageReference Include="Serilog" Version="3.1.1" />
+        <PackageReference Include="Serilog" Version="4.0.0" />
     </ItemGroup>
     
 </Project>

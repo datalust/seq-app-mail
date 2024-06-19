@@ -24,7 +24,7 @@
   
   <ItemGroup>
     <PackageReference Include="Seq.Apps" Version="2023.4.0" />
-    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.7.300.83" />
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.7.300.106" />
   </ItemGroup>
 
   <ItemGroup>
