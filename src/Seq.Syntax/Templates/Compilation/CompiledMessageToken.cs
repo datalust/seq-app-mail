@@ -74,16 +74,49 @@ class CompiledMessageToken : CompiledTemplate
             }
         }
     }
-
-    void EvaluateProperty(IReadOnlyDictionary<string, LogEventPropertyValue> properties, PropertyToken pt,
-        TextWriter output)
+    
+    void EvaluateProperty(IReadOnlyDictionary<string, LogEventPropertyValue> properties, PropertyToken pt, TextWriter output)
     {
-        if (!properties.TryGetValue(pt.PropertyName, out var value))
+        var rest = pt.PropertyName.AsSpan();
+        if (!TryGetNextStep(rest, out var name, out rest))
+        {
+            output.Write(pt);
+            return;
+        }
+
+        if (!properties.TryGetValue(name.ToString(), out var value))
         {
             output.Write(pt.ToString());
             return;
         }
+        
+        while (TryGetNextStep(rest, out name, out rest))
+        {
+            if (value is not StructureValue obj)
+            {
+                output.Write(pt);
+                return;
+            }
 
+            var nameString = name.ToString();
+            var found = false;
+            foreach (var property in obj.Properties)
+            {
+                if (property.Name == nameString)
+                {
+                    value = property.Value;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                output.Write(pt);
+                return;
+            }
+        }
+        
         if (pt.Alignment is null)
         {
             EvaluatePropertyUnaligned(value, output, pt.Format);
@@ -158,5 +191,28 @@ class CompiledMessageToken : CompiledTemplate
         }
 
         output.Write(value);
+    }
+    
+    static bool TryGetNextStep(ReadOnlySpan<char> path, out ReadOnlySpan<char> name, out ReadOnlySpan<char> rest)
+    {
+        if (path.Length == 0)
+        {
+            name = [];
+            rest = [];
+            return false;
+        }
+        
+        var i = path.IndexOf('.');
+        if (i == -1)
+        {
+            name = path;
+            rest = [];
+            return true;
+        }
+        
+        name = path[..i];
+        rest = i == name.Length - 1 ? [] : path[(i + 1)..];
+
+        return true;
     }
 }
