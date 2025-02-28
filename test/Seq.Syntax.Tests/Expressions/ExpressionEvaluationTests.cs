@@ -5,6 +5,7 @@ using Seq.Syntax.Expressions;
 using Seq.Syntax.Expressions.Runtime;
 using Seq.Syntax.Tests.Support;
 using Serilog.Events;
+using Serilog.Parsing;
 using Xunit;
 
 namespace Seq.Syntax.Tests.Expressions;
@@ -21,11 +22,10 @@ public class ExpressionEvaluationTests
         var evt = Some.InformationEvent();
 
         evt.AddPropertyIfAbsent(
-            new LogEventProperty("User", new StructureValue(new[]
-            {
+            new LogEventProperty("User", new StructureValue([
                 new LogEventProperty("Id", new ScalarValue(42)),
-                new LogEventProperty("Name", new ScalarValue("nblumhardt")),
-            })));
+                new LogEventProperty("Name", new ScalarValue("nblumhardt"))
+            ])));
         
         evt.AddPropertyIfAbsent(new LogEventProperty("@st", new ScalarValue((evt.Timestamp - TimeSpan.FromMinutes(10)).ToString("o"))));
 
@@ -39,7 +39,9 @@ public class ExpressionEvaluationTests
         }
         else
         {
-            Assert.True(Coerce.IsTrue(RuntimeOperators._Internal_Equal(StringComparison.OrdinalIgnoreCase, actual, expected)), $"Expected value: {Display(expected)}{Environment.NewLine}Actual value: {Display(actual)}");
+            Assert.True(
+                Coerce.IsTrue(RuntimeOperators._Internal_Equal(StringComparison.OrdinalIgnoreCase, actual, expected)),
+                $"Expected value: {Display(expected)}{Environment.NewLine}Actual value: {Display(actual)}");
         }
     }
 
@@ -49,5 +51,36 @@ public class ExpressionEvaluationTests
             return "undefined";
 
         return value.ToString();
+    }
+
+    [Fact]
+    public void MessageRenderingSupportsNestedProperties()
+    {
+        // From the point of view of Seq and Seq Syntax, dotted identifiers in property names are paths into
+        // nested objects. This differs from Serilog's interpretation, which is that they are flat names with
+        // embedded dots. When Seq and Serilog are used together, Serilog.Sinks.Seq performs the conversion
+        // from flat names to nested objects, so on the server, apps etc. need message rendering to work with
+        // the nested data representation.
+        
+        var messageTemplate = new MessageTemplateParser().Parse("HTTP {request.method} {request.path}");
+        var properties = new[]
+        {
+            new LogEventProperty("request", new StructureValue([
+                new LogEventProperty("method", new ScalarValue("GET")),
+                new LogEventProperty("path", new ScalarValue("/example"))
+            ]))
+        };
+        
+        var evt = new LogEvent(
+            DateTimeOffset.Now,
+            LogEventLevel.Debug,
+            exception: null,
+            messageTemplate,
+            properties);
+
+        var message = SerilogExpression.Compile("@m")(evt);
+        var messageValue = Assert.IsType<ScalarValue>(message).Value;
+
+        Assert.Equal("HTTP GET /example", messageValue);
     }
 }
