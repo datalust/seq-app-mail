@@ -9,7 +9,7 @@ namespace Seq.Syntax.Tests.Expressions;
 public class ExpressionTranslationTests
 {
     public static IEnumerable<object[]> ExpressionEvaluationCases =>
-        AsvCases.ReadCases("translation-cases.asv");
+        TestCases.ReadAsvCases("translation-cases.asv");
 
     [Theory]
     [MemberData(nameof(ExpressionEvaluationCases))]

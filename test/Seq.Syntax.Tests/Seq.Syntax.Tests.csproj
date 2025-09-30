@@ -12,12 +12,16 @@
         </PackageReference>
         <PackageReference Include="xunit" Version="2.8.1" />
         <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+        <PackageReference Include="Serilog.Formatting.Compact.Reader" Version="4.0.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Seq.Syntax\Seq.Syntax.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Cases/*.asv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Cases/*.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

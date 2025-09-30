@@ -9,7 +9,7 @@ namespace Seq.Syntax.Tests.Templates;
 public class TemplateEncodingTests
 {
     public static IEnumerable<object[]> TemplateEvaluationCases =>
-        AsvCases.ReadCases("template-encoding-cases.asv");
+        TestCases.ReadAsvCases("template-encoding-cases.asv");
 
     [Theory]
     [MemberData(nameof(TemplateEvaluationCases))]
