@@ -16,9 +16,7 @@ using System;
 using System.Collections.Generic;
 using Seq.Syntax.Expressions.Ast;
 
-// ReSharper disable UnusedMember.Global
-
-// ReSharper disable InconsistentNaming, MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global, InconsistentNaming, MemberCanBePrivate.Global
 
 namespace Seq.Syntax.Expressions;
 
@@ -37,10 +35,13 @@ static class Operators
     public const string OpEndsWith = "EndsWith";
     public const string OpIndexOf = "IndexOf";
     public const string OpIndexOfMatch = "IndexOfMatch";
-    public const string OpIsMatch = "IsMatch";
     public const string OpIsDefined = "IsDefined";
+    public const string OpIsMatch = "IsMatch";
+    public const string OpIsRootSpan = "IsRootSpan";
+    public const string OpIsSpan = "IsSpan";
     public const string OpLastIndexOf = "LastIndexOf";
     public const string OpLength = "Length";
+    public const string OpMilliseconds = "TotalMilliseconds";
     public const string OpNow = "Now";
     public const string OpRound = "Round";
     public const string OpStartsWith = "StartsWith";

@@ -31,4 +31,26 @@ public class TemplateParserTests
         var avt = Assert.IsType<FormattedExpression>(template);
         Assert.Null(avt.Alignment);
     }
+
+    const string Template =
+"""
+{ {
+operationName: 'CreateLinearIssueFromSeq',
+query: 'mutation CreateLinearIssueFromSeq($input: IssueCreateInput!) { issueCreate(input: $input) {   success  } }',
+variables: {
+  input: {
+    title: @Message,
+    description: 'https://seq.xxxxxxx.io/',
+    teamId: 'xxxxxxxx-5f41-4492-9372-7cf3f699b97b'
+  }
+}
+} }
+""";
+
+    [Fact]
+    public void TemplateCanBeParsed()
+    {
+        var parser = new TemplateParser();
+        Assert.True(parser.TryParse(Template, out _, out var error), error);
+    }
 }

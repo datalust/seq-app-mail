@@ -13,7 +13,7 @@ namespace Seq.Syntax.Tests.Expressions;
 public class ExpressionEvaluationTests
 {
     public static IEnumerable<object[]> ExpressionEvaluationCases =>
-        AsvCases.ReadCases("expression-evaluation-cases.asv");
+        TestCases.ReadAsvCases("expression-evaluation-cases.asv");
 
     [Theory]
     [MemberData(nameof(ExpressionEvaluationCases))]
