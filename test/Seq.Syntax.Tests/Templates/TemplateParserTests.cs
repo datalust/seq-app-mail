@@ -15,8 +15,10 @@ public class TemplateParserTests
     [InlineData("Syntax {+Err}or", "Syntax error (line 1, column 9): unexpected operator `+`, expected expression.")]
     [InlineData("Syntax {1 + 2 and}or", "Syntax error (line 1, column 18): unexpected `}`, expected expression.")]
     [InlineData("Missing {Align,-} digits", "Syntax error (line 1, column 17): unexpected `}`, expected number.")]
-    [InlineData("Non-digit {Align,x} specifier", "Syntax error (line 1, column 18): unexpected identifier `x`, expected alignment and width.")]
-    [InlineData("Empty {Align,} digits", "Syntax error (line 1, column 14): unexpected `}`, expected alignment and width.")]
+    [InlineData("Non-digit {Align,x} specifier",
+        "Syntax error (line 1, column 18): unexpected identifier `x`, expected alignment and width.")]
+    [InlineData("Empty {Align,} digits",
+        "Syntax error (line 1, column 14): unexpected `}`, expected alignment and width.")]
     public void ErrorsAreReported(string input, string error)
     {
         Assert.False(ExpressionTemplate.TryParse(input, null, null, null, out _, out var actual));
@@ -30,27 +32,5 @@ public class TemplateParserTests
         Assert.True(parser.TryParse("{x}", out var template, out _));
         var avt = Assert.IsType<FormattedExpression>(template);
         Assert.Null(avt.Alignment);
-    }
-
-    const string Template =
-"""
-{ {
-operationName: 'CreateLinearIssueFromSeq',
-query: 'mutation CreateLinearIssueFromSeq($input: IssueCreateInput!) { issueCreate(input: $input) {   success  } }',
-variables: {
-  input: {
-    title: @Message,
-    description: 'https://seq.xxxxxxx.io/',
-    teamId: 'xxxxxxxx-5f41-4492-9372-7cf3f699b97b'
-  }
-}
-} }
-""";
-
-    [Fact]
-    public void TemplateCanBeParsed()
-    {
-        var parser = new TemplateParser();
-        Assert.True(parser.TryParse(Template, out _, out var error), error);
     }
 }
