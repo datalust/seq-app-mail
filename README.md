@@ -1,4 +1,4 @@
-# Seq Mail Apps [![Build status](https://ci.appveyor.com/api/projects/status/6jo5xhyfans07msl/branch/dev?svg=true)](https://ci.appveyor.com/project/datalust/seq-app-mail/branch/dev)
+# Seq Mail Apps
 
 This repository contains the Seq output apps for various email services, built on a shared email templating system.
 
