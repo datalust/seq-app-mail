@@ -31,9 +31,11 @@ foreach ($src in Get-ChildItem src/*) {
 	Write-Output "build: Packaging project in $src"
 
     if ($suffix) {
-        & dotnet pack -c Release -o ../../artifacts --version-suffix=$suffix
+        & dotnet publish -c Release -o ./obj/publish --version-suffix=$suffix
+        & dotnet pack -c Release -o ../../artifacts --no-build --version-suffix=$suffix
     } else {
-        & dotnet pack -c Release -o ../../artifacts
+        & dotnet publish -c Release -o ./obj/publish
+        & dotnet pack -c Release -o ../../artifacts --no-build
     }
     if($LASTEXITCODE -ne 0) { throw "Packaging failed" }
 
