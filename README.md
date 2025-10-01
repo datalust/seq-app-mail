@@ -1,14 +1,14 @@
-# Seq Mail Apps [![Build status](https://ci.appveyor.com/api/projects/status/6jo5xhyfans07msl/branch/dev?svg=true)](https://ci.appveyor.com/project/datalust/seq-app-mail/branch/dev)
+# Seq Mail Apps
 
 This repository contains the Seq output apps for various email services, built on a shared email templating system.
 
 | Package id                                                                          | Description                                                     |
 |-------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| [`Seq.App.Mail.AmazonSes`](https://nuget.org/packages/seq.app.mail.amazonses)       | Send email using the Amazon Simple Email Service (SES) API.     |
 | [`Seq.App.Mail.Microsoft365`](https://nuget.org/packages/seq.app.mail.microsoft365) | Send email through Microsoft 365 using the Microsoft Graph API. |
 | [`Seq.App.Mail.Smtp`](https://nuget.org/packages/seq.app.mail.smtp)                 | Send email using the SMTP protocol.                             |
 
 > Need to send email using a protocol or API not listed here? Let us know!
-
 
 ## Getting started
 
@@ -30,9 +30,16 @@ When starting an instance of the app in Seq, the following parameters can be sup
 | **Body**               | The email body.                                                                    | Yes       | See `src/Seq.Mail/Resources` |
 | **Body is plain text** | If checked, the body template will be interpreted as plain text, rather than HTML. |           |                              |
 
+### `Seq.App.Mail.AmazonSes`
+
+| Property          | Description                  | Template? | Default |
+|-------------------|------------------------------|---|---|
+| **Access key id** | An Amazon SES access key id. | | |
+| **Client id**     | An Amazon SES secret key.    | | |
+
 ### `Seq.App.Mail.Microsoft365`
 
-To send mail using the Microsoft 365 app, first create an app registration in Azure. The app must have the `Mail.Send` permission 
+To send mail using the Microsoft 365 app, first create an app registration in Azure. The app must have the `Mail.Send` permission
 for the Microsoft Graph API.
 
 | Property               | Description                                                                                  | Template? | Default |
@@ -53,6 +60,8 @@ for the Microsoft Graph API.
 | **Password**          | Password used when authenticating to the SMTP server; ignored unless `Username` is set. |           |         |
 
 ## Templates
+
+The Seq mail apps support the [Seq template language](https://docs.datalust.co/docs/template-syntax).
 
 Event and notification properties can be inserted dynamically into many of the settings listed above, by surrounding them
 with braces:

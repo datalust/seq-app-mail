@@ -15,8 +15,10 @@ public class TemplateParserTests
     [InlineData("Syntax {+Err}or", "Syntax error (line 1, column 9): unexpected operator `+`, expected expression.")]
     [InlineData("Syntax {1 + 2 and}or", "Syntax error (line 1, column 18): unexpected `}`, expected expression.")]
     [InlineData("Missing {Align,-} digits", "Syntax error (line 1, column 17): unexpected `}`, expected number.")]
-    [InlineData("Non-digit {Align,x} specifier", "Syntax error (line 1, column 18): unexpected identifier `x`, expected alignment and width.")]
-    [InlineData("Empty {Align,} digits", "Syntax error (line 1, column 14): unexpected `}`, expected alignment and width.")]
+    [InlineData("Non-digit {Align,x} specifier",
+        "Syntax error (line 1, column 18): unexpected identifier `x`, expected alignment and width.")]
+    [InlineData("Empty {Align,} digits",
+        "Syntax error (line 1, column 14): unexpected `}`, expected alignment and width.")]
     public void ErrorsAreReported(string input, string error)
     {
         Assert.False(ExpressionTemplate.TryParse(input, null, null, null, out _, out var actual));

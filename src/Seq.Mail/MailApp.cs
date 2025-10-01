@@ -83,9 +83,12 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
 
     protected abstract Task SendAsync(MimeMessage message, CancellationToken cancel);
 
+    protected virtual void PrepareMessage(LogEvent logEvent, MimeMessage message) { }
+
     public async Task OnAsync(Event<LogEvent> evt)
     {
         using var message = _mailMessageFactory!.FromEvent(evt.Data);
+        PrepareMessage(evt.Data, message);
         await SendAsync(message, default);
     }
         

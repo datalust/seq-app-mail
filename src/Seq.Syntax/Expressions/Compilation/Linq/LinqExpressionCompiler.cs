@@ -104,6 +104,10 @@ class LinqExpressionCompiler : SerilogExpressionTransformer<ExpressionBody>
         if (!_nameResolver.TryResolveFunctionName(call.OperatorName, out var m))
             throw new ArgumentException($"The function name `{call.OperatorName}` was not recognized.");
 
+        if (m == null!)
+            throw new InvalidOperationException(
+                $"The name resolver {_nameResolver} failed to return a valid `MethodInfo` for function `{call.OperatorName}`.");
+
         var methodParameters = m.GetParameters()
             .Select(info => (pi: info, optional: info.GetCustomAttribute<OptionalAttribute>() != null))
             .ToList();

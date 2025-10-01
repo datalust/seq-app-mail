@@ -5,16 +5,17 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit" Version="2.6.2" />
-    <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+    <PackageReference Include="xunit" Version="2.8.1" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Seq.App.Mail.Microsoft365\Seq.App.Mail.Microsoft365.csproj" />
+    <ProjectReference Include="..\..\src\Seq.App.Mail.AmazonSes\Seq.App.Mail.AmazonSes.csproj" />
     <ProjectReference Include="..\..\src\Seq.App.Mail.Smtp\Seq.App.Mail.Smtp.csproj" />
     <ProjectReference Include="..\..\src\Seq.Mail\Seq.Mail.csproj" />
     <ProjectReference Include="..\..\src\Seq.Apps.Testing\Seq.Apps.Testing.csproj" />

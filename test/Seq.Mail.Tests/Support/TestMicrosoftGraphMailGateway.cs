@@ -8,7 +8,7 @@ namespace Seq.Mail.Tests.Support;
 
 class TestMicrosoftGraphMailGateway : IMicrosoftGraphMailGateway
 {
-    public List<(Microsoft365Options, Message)> Received { get; } = new();
+    public List<(Microsoft365Options, Message)> Received { get; } = [];
     
     public Task SendAsync(Microsoft365Options options, Message message, CancellationToken cancel)
     {

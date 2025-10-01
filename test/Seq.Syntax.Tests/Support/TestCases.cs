@@ -11,15 +11,22 @@ namespace Seq.Syntax.Tests.Support;
 // or other!).
 //
 // The ASV format informally supports `//` comment lines, as long as they don't contain the arrow character.
-static class AsvCases
+static class TestCases
 {
     static readonly string CasesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cases");
 
-    public static IEnumerable<object[]> ReadCases(string filename)
+    public static IEnumerable<object[]> ReadAsvCases(string filename)
     {
         return from line in File.ReadLines(Path.Combine(CasesPath, filename))
             select line.Split("⇶", StringSplitOptions.RemoveEmptyEntries) into cols
             where cols.Length == 2
             select cols.Select(c => c.Trim()).ToArray<object>();
+    }
+
+    public static IEnumerable<string> ReadNDJsonCases(string filename)
+    {
+        return File.ReadLines(Path.Combine(CasesPath, filename))
+            .Where(line => !string.IsNullOrWhiteSpace(line))
+            .Select(line => line.Trim());
     }
 }

@@ -29,6 +29,8 @@ static class RuntimeOperators
     static readonly LogEventPropertyValue ConstantTrue = new ScalarValue(true),
         ConstantFalse = new ScalarValue(false);
 
+    const string SpanStartTimestampPropertyName = "@st", ParentSpanIdPropertyName = "@ps";
+
     internal static LogEventPropertyValue ScalarBoolean(bool value)
     {
         return value ? ConstantTrue : ConstantFalse;
@@ -505,6 +507,10 @@ static class RuntimeOperators
         
         var toString = sv.Value switch
         {
+            bool boolean => boolean ? "true" : "false",
+            DateTimeOffset dto when dto.Offset == TimeSpan.Zero && fmt == null => dto.UtcDateTime.ToString("O"),
+            DateTimeOffset dto when fmt == null => dto.ToString("O"),
+            DateTime dt when fmt == null => dt.ToString("O"),
             LogEventLevel level => LevelRenderer.GetLevelMoniker(level, fmt),
             IFormattable formattable => formattable.ToString(fmt, formatProvider),
             _ => sv.Value.ToString()
@@ -554,6 +560,41 @@ static class RuntimeOperators
     {
         if (Coerce.String(value, out var s))
             return new ScalarValue(Uri.EscapeDataString(s));
+
+        return null;
+    }
+    
+    public static LogEventPropertyValue? IsSpan(LogEvent logEvent)
+    {
+        return new ScalarValue(logEvent is { TraceId: not null, SpanId: not null } &&
+                               logEvent.Properties.ContainsKey(SpanStartTimestampPropertyName));
+    }
+
+    public static LogEventPropertyValue? IsRootSpan(LogEvent logEvent)
+    {
+        return new ScalarValue(logEvent is { TraceId: not null, SpanId: not null } &&
+                               logEvent.Properties.ContainsKey(SpanStartTimestampPropertyName) &&
+                               !logEvent.Properties.ContainsKey(ParentSpanIdPropertyName));
+    }
+
+    public static LogEventPropertyValue? FromUnixEpoch(LogEventPropertyValue? dateTime)
+    {
+        if (dateTime is ScalarValue sv)
+        {
+            if (sv.Value is DateTimeOffset dto)
+                return new ScalarValue(dto.UtcDateTime - DateTime.UnixEpoch);
+
+            if (sv.Value is DateTime dt)
+                return new ScalarValue(dt.ToUniversalTime() - DateTime.UnixEpoch);
+        }
+
+        return null;
+    }
+
+    public static LogEventPropertyValue? TotalMilliseconds(LogEventPropertyValue? timeSpan)
+    {
+        if (timeSpan is ScalarValue { Value: TimeSpan ts })
+            return new ScalarValue(ts.Ticks / (decimal)TimeSpan.TicksPerMillisecond);
 
         return null;
     }

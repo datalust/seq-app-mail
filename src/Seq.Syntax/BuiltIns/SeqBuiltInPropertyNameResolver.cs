@@ -24,8 +24,9 @@ class SeqBuiltInPropertyNameResolver: NameResolver
             "TraceId" or "tr" => "@p['@tr']",
             "SpanId" or "sp" => "@p['@sp']",
             "Resource" or "ra" => "@p['@ra']",
-            "Start" or "st" => "@p['@st']",
+            "Start" or "st" => "_AsDateTimeOffset(@p['@st'])",
             "ParentId" or "ps" => "@p['@ps']",
+            "SpanKind" or "sk" => "@p['@sk']",
             "Scope" or "sa" => "@p['@sa']",
             "Elapsed" => "_Elapsed(@st, @t)",
             "Arrived" or "Document" or "Data" => "undefined()",
@@ -37,7 +38,7 @@ class SeqBuiltInPropertyNameResolver: NameResolver
 
     public override bool TryResolveFunctionName(string name, [NotNullWhen(true)] out MethodInfo? implementation)
     {
-        if (name == nameof(_Elapsed))
+        if (name == nameof(_Elapsed) || name == nameof(_AsDateTimeOffset))
         {
             implementation = typeof(SeqBuiltInPropertyNameResolver).GetMethod(name)!;
             return true;
@@ -51,6 +52,14 @@ class SeqBuiltInPropertyNameResolver: NameResolver
     {
         if (AsDateTimeOffset(from) is {} f && AsDateTimeOffset(to) is {} t)
             return new ScalarValue(t - f);
+
+        return null;
+    }
+
+    public static LogEventPropertyValue? _AsDateTimeOffset(LogEventPropertyValue? value)
+    {
+        if (AsDateTimeOffset(value) is { } dto)
+            return new ScalarValue(dto);
 
         return null;
     }

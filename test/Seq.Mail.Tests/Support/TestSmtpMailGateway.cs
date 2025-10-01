@@ -9,7 +9,7 @@ namespace Seq.Mail.Tests.Support;
 
 class TestSmtpMailGateway : ISmtpMailGateway
 {
-    public List<(SmtpOptions, MimeMessage)> Received { get; } = new();
+    public List<(SmtpOptions, MimeMessage)> Received { get; } = [];
     
     public Task SendAsync(SmtpOptions options, MimeMessage message, CancellationToken cancel)
     {
