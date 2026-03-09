@@ -49,7 +49,7 @@ public class SmtpMailAppTests
         Assert.Equal("f@localhost", message.From.ToString());
         Assert.Equal(new[] { "t@localhost", "r@localhost" }, message.To.Select(t => t.ToString()));
         Assert.Equal("s", message.Subject);
-        Assert.Equal("b", message.HtmlBody.Trim());
+        Assert.Equal("b", message.HtmlBody!.Trim());
         Assert.Null(message.TextBody);
     }
 

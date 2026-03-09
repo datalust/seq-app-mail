@@ -2,9 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Description>Helper types for development and debugging of Seq plug-in apps.</Description>
         <Authors>Datalust</Authors>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
