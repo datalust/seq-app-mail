@@ -14,7 +14,7 @@ ProjectSection(SolutionItems) = preProject
 	LICENSE = LICENSE
 	README.md = README.md
 	RunLocalSmtp.ps1 = RunLocalSmtp.ps1
-	Directory.Build.props = Directory.Build.props
+	Directory.Version.props = Directory.Version.props
 	Build.ps1 = Build.ps1
 EndProjectSection
 EndProject

@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <Description>Send events and notifications from Seq via SMTP mail.</Description>
     <Authors>Datalust, Serilog Contributors</Authors>
     <PackageTags>seq-app smtp email</PackageTags>
@@ -11,7 +10,6 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/datalust/seq-app-mail</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   
   <ItemGroup>

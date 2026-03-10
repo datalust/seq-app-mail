@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <Description>Template and expression evaluation using a syntax based on the Seq query language.</Description>
         <Authors>Datalust</Authors>
         <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>
@@ -10,7 +9,6 @@
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/datalust/seq-app-mail</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
