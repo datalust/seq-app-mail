@@ -19,7 +19,7 @@ class MailkitMailGateway : ISmtpMailGateway
         
         await client.ConnectAsync(options.Host, options.Port, options.SocketOptions, cancel);
         if (options.RequiresAuthentication)
-            await client.AuthenticateAsync(options.Username, options.Password, cancel);
+            await client.AuthenticateAsync(options.Username!, options.Password!, cancel);
         await client.SendAsync(message, cancel);
         await client.DisconnectAsync(true, cancel);
     }
