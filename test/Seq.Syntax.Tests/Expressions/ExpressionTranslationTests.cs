@@ -8,11 +8,11 @@ namespace Seq.Syntax.Tests.Expressions;
 
 public class ExpressionTranslationTests
 {
-    public static IEnumerable<object[]> ExpressionEvaluationCases =>
+    public static IEnumerable<object[]> ExpressionTranslationCases =>
         TestCases.ReadAsvCases("translation-cases.asv");
 
     [Theory]
-    [MemberData(nameof(ExpressionEvaluationCases))]
+    [MemberData(nameof(ExpressionTranslationCases))]
     public void ExpressionsAreCorrectlyTranslated(string expr, string expected)
     {
         var parsed = new ExpressionParser().Parse(expr);
