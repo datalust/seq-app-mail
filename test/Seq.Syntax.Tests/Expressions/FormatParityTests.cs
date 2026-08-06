@@ -26,7 +26,7 @@ public class FormatParityTests
     // ReSharper disable once UnusedMember.Global
     public static LogEventPropertyValue? ClefEscape(LogEventPropertyValue? logEventProperties)
     {
-        if (!(logEventProperties is StructureValue st))
+        if (logEventProperties is not StructureValue st)
             return null;
 
         foreach (var check in st.Properties)
@@ -55,8 +55,8 @@ public class FormatParityTests
     // ReSharper disable once UnusedMember.Global
     public static LogEventPropertyValue? ClassicRender(LogEventPropertyValue? messageTemplate, LogEventPropertyValue? properties)
     {
-        if (!(messageTemplate is ScalarValue {Value: string smt}) ||
-            !(properties is StructureValue stp))
+        if (messageTemplate is not ScalarValue {Value: string smt} ||
+            properties is not StructureValue stp)
         {
             return null;
         }
@@ -71,8 +71,8 @@ public class FormatParityTests
     // ReSharper disable once UnusedMember.Global
     public static LogEventPropertyValue? ClassicRenderings(LogEventPropertyValue? messageTemplate, LogEventPropertyValue? properties)
     {
-        if (!(messageTemplate is ScalarValue {Value: string smt}) ||
-            !(properties is StructureValue stp))
+        if (messageTemplate is not ScalarValue {Value: string smt} ||
+            properties is not StructureValue stp)
         {
             return null;
         }

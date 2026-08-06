@@ -71,8 +71,8 @@ public class ExpressionCompilerTests
     public void ExpressionsEvaluateWildcardsOnCollectionItems()
     {
         AssertEvaluation("Items[?] like 'C%'",
-            Some.InformationEvent("Cart contains {@Items}", new[] { new[] { "Tea", "Coffee" } }), // Test helper doesn't correct this case
-            Some.InformationEvent("Cart contains {@Items}", new[] { new[] { "Apricots" } }));
+            Some.InformationEvent("Cart contains {@Items}", [new[] { "Tea", "Coffee" }]), // Test helper doesn't correct this case
+            Some.InformationEvent("Cart contains {@Items}", [new[] { "Apricots" }]));
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class ExpressionCompilerTests
     {
         AssertEvaluation("AppId is not null",
             Some.InformationEvent("{AppId}", 10),
-            Some.InformationEvent("{AppId}", new object?[] {null}),
+            Some.InformationEvent("{AppId}", [null]),
             Some.InformationEvent());
     }
 
@@ -114,15 +114,15 @@ public class ExpressionCompilerTests
     public void SequenceLengthCanBeDetermined()
     {
         AssertEvaluation("length(Items) > 1",
-            Some.InformationEvent("Checking out {Items}", new object[] { new[] { "pears", "apples" }}),
-            Some.InformationEvent("Checking out {Items}", new object[] { new[] { "pears" }}));
+            Some.InformationEvent("Checking out {Items}", [new[] { "pears", "apples" }]),
+            Some.InformationEvent("Checking out {Items}", [new[] { "pears" }]));
     }
 
     [Fact]
     public void InMatchesLiterals()
     {
         AssertEvaluation("@l in ['Warning', 'Error']",
-            Some.LogEvent(LogEventLevel.Error, "Hello"),
+            Some.LogEvent(LogEventLevel.Error, messageTemplate: "Hello"),
             Some.InformationEvent("Hello"));
     }
 

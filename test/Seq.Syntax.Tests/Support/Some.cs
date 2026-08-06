@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Serilog;
 using Serilog.Events;
 using Xunit.Sdk;
@@ -9,15 +10,15 @@ static class Some
 {
     public static LogEvent InformationEvent(string messageTemplate = "Hello, world!", params object?[] propertyValues)
     {
-        return LogEvent(LogEventLevel.Information, messageTemplate, propertyValues);
+        return LogEvent(LogEventLevel.Information, default, default, messageTemplate, propertyValues);
     }
 
     public static LogEvent WarningEvent(string messageTemplate = "Hello, world!", params object?[] propertyValues)
     {
-        return LogEvent(LogEventLevel.Warning, messageTemplate, propertyValues);
+        return LogEvent(LogEventLevel.Warning, default, default, messageTemplate, propertyValues);
     }
 
-    public static LogEvent LogEvent(LogEventLevel level, string messageTemplate = "Hello, world!", params object?[] propertyValues)
+    public static LogEvent LogEvent(LogEventLevel level = LogEventLevel.Information, ActivityTraceId traceId = default, ActivitySpanId spanId = default, string messageTemplate = "Hello, world!", params object?[] propertyValues)
     {
         var log = new LoggerConfiguration().CreateLogger();
 #pragma warning disable Serilog004 // Constant MessageTemplate verifier
@@ -26,7 +27,7 @@ static class Some
         {
             throw new XunitException("Template could not be bound.");
         }
-        return new LogEvent(DateTimeOffset.Now, level, null, template, properties);
+        return new LogEvent(DateTimeOffset.Now, level, null, template, properties, traceId, spanId);
     }
 
     public static object AnonymousObject()
