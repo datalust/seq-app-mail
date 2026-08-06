@@ -86,6 +86,11 @@
                         {#end}
                     {#end}
                 </table>
+                {#if Source.ContributingEventsUrl is not null}
+                    <div style="font-size:12px;margin-top:10px;">
+                        <a href="{Source.ContributingEventsUrl}" style="color:#356dba;text-decoration:none;border-bottom:2px solid;">Explore contributing events in Seq</a>
+                    </div>
+                {#end}
             </div>
         {#end}
         {#if Failures is not null}
