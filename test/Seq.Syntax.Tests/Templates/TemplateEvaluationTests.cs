@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using Seq.Syntax.Templates;
@@ -23,5 +24,33 @@ public class TemplateEvaluationTests
         compiled.Format(evt, output);
         var actual = output.ToString();
         Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void TraceIdsAreEvaluated()
+    {
+        var traceId = ActivityTraceId.CreateRandom();
+        var spanId = ActivitySpanId.CreateRandom();
+        var evt = Some.LogEvent(traceId: traceId, spanId: spanId);
+
+        var compiled = new ExpressionTemplate("{@tr}/{@TraceId}/{@sp}/{@SpanId}");
+        var output = new StringWriter();
+        compiled.Format(evt, output);
+        var actual = output.ToString();
+        
+        Assert.Equal($"{traceId}/{traceId}/{spanId}/{spanId}", actual);
+    }
+    
+    [Fact]
+    public void TraceIdsAreMissingWhenDefault()
+    {
+        var evt = Some.LogEvent(traceId: default, spanId: default);
+
+        var compiled = new ExpressionTemplate("{@tr}/{@TraceId}/{@sp}/{@SpanId}");
+        var output = new StringWriter();
+        compiled.Format(evt, output);
+        var actual = output.ToString();
+        
+        Assert.Equal("///", actual);
     }
 }
