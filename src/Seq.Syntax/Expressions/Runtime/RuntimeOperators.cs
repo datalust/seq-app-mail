@@ -464,6 +464,16 @@ static class RuntimeOperators
 
         return new ScalarValue(str.Substring((int)si, (int)len));
     }
+    
+    public static LogEventPropertyValue? Replace(StringComparison sc, LogEventPropertyValue? @string, LogEventPropertyValue? substring, LogEventPropertyValue? replacement)
+    {
+        if (!Coerce.String(@string, out var str) ||
+            !Coerce.String(substring, out var sub) ||
+            !Coerce.String(replacement, out var rep))
+            return null;
+
+        return new ScalarValue(str.Replace(sub, rep, sc));
+    }
 
     public static LogEventPropertyValue? Concat(LogEventPropertyValue? string0, LogEventPropertyValue? string1)
     {

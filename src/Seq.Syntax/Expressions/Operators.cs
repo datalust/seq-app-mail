@@ -42,6 +42,7 @@ static class Operators
     public const string OpLastIndexOf = "LastIndexOf";
     public const string OpLength = "Length";
     public const string OpNow = "Now";
+    public const string OpReplace = "Replace";
     public const string OpRound = "Round";
     public const string OpStartsWith = "StartsWith";
     public const string OpSubstring = "Substring";
