@@ -302,3 +302,10 @@ uriencode(' ')                       ⇶ '%20'
 
 tostring(@l, 'u3')                   ⇶ 'INF'
 tostring(@Elapsed)                   ⇶ '00:10:00'
+
+// Replace
+Replace('xYX', 'x', 'z')           ⇶ 'zYX'
+Replace('xYX', 'x', 'z') ci        ⇶ 'zYz'
+Replace('mess', 'ss', 'an')        ⇶ 'mean'
+Replace('mess', 's', 'an')         ⇶ 'meanan'
+Replace('xyz', 'x', '$0')          ⇶ '$0yz'
