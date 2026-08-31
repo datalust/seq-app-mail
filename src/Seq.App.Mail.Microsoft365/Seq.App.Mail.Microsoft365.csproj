@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Description>Send events and notifications from Seq via Microsoft 365 mail.</Description>
     <Authors>Datalust, Serilog Contributors</Authors>
     <PackageTags>seq-app microsoft-365 email</PackageTags>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Description>Shared infrastructure for Seq apps that integrate with email and similar messaging services.</Description>
     <Authors>Datalust</Authors>
     <PackageProjectUrl>https://github.com/datalust/seq-app-mail</PackageProjectUrl>
@@ -14,15 +14,11 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Seq.Mail.Tests" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="../Seq.Syntax/Seq.Syntax.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="mailkit" Version="4.17.0" />
-    <PackageReference Include="Superpower" Version="3.2.1" />
     <PackageReference Include="Seq.Apps" Version="2023.4.0" />
+    <PackageReference Include="Seq.Syntax" Version="2.0.0-*" />
   </ItemGroup>
 
   <ItemGroup>

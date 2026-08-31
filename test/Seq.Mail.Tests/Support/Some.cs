@@ -1,23 +1,20 @@
 ﻿using System;
+using System.IO;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 using Xunit.Sdk;
 
 namespace Seq.Mail.Tests.Support;
 
 static class Some
 {
-    public static LogEvent InformationEvent(string messageTemplate = "Hello, world!", params object?[] propertyValues)
+    public static string InformationEvent(string messageTemplate = "Hello, world!", params object?[] propertyValues)
     {
         return LogEvent(LogEventLevel.Information, messageTemplate, propertyValues);
     }
-
-    public static LogEvent WarningEvent(string messageTemplate = "Hello, world!", params object?[] propertyValues)
-    {
-        return LogEvent(LogEventLevel.Warning, messageTemplate, propertyValues);
-    }
-
-    public static LogEvent LogEvent(LogEventLevel level, string messageTemplate = "Hello, world!", params object?[] propertyValues)
+    
+    static string LogEvent(LogEventLevel level, string messageTemplate = "Hello, world!", params object?[] propertyValues)
     {
         var log = new LoggerConfiguration().CreateLogger();
 #pragma warning disable Serilog004 // Constant MessageTemplate verifier
@@ -26,16 +23,11 @@ static class Some
         {
             throw new XunitException("Template could not be bound.");
         }
-        return new LogEvent(DateTimeOffset.Now, level, null, template, properties);
-    }
 
-    public static object AnonymousObject()
-    {
-        return new {A = 42};
-    }
-
-    public static LogEventPropertyValue LogEventPropertyValue()
-    {
-        return new ScalarValue(AnonymousObject());
+        var sw = new StringWriter();
+        new CompactJsonFormatter().Format(
+            new LogEvent(DateTimeOffset.Now, level, null, template, properties),
+            sw);
+        return sw.ToString();
     }
 }

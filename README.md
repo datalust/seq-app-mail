@@ -145,7 +145,3 @@ seqcli tail --json | ./RunLocalSmtp.ps1
 This assumes that you have `seqcli` configured with the address of your Seq server (`http://localhost:5341` by default),
 and you're running an SMTP server such as [Papercut SMTP](https://github.com/ChangemakerStudios/Papercut-SMTP) on your
 local machine at port 25.
-
-## Acknowledgements
-
-Templating support is based on code from [_Serilog.Expressions_](https://github.com/serilog/serilog-expressions).
