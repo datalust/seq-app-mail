@@ -53,7 +53,6 @@ class MailMessageFactory
                 new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)),
                 builtInNameResolver
             ]),
-            null,
             encoder,
             out var result,
             out var error) ? result : throw new ArgumentException(error);

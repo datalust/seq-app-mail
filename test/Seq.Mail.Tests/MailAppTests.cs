@@ -14,7 +14,7 @@ public class MailAppTests
     {
         var template = MailApp.LoadDefaultBodyTemplate(bodyIsPlainText);
         Assert.True(
-            ExpressionTemplate.TryParse(template, null, new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)), null, null, out _, out var error),
+            ExpressionTemplate.TryParse(template, null, new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)), null, out _, out var error),
             error);
     }
 }
