@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Description>Helper types for development and debugging of Seq plug-in apps.</Description>
         <Authors>Datalust</Authors>

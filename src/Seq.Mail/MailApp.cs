@@ -1,17 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using MimeKit;
 using Seq.Apps;
 using Seq.Mail.TimeZones;
-using Serilog.Events;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global, MemberCanBePrivate.Global
 
 namespace Seq.Mail;
 
-public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
+public abstract class MailApp : SeqApp, ISubscribeToJsonAsync
 {
     const string DefaultSubjectTemplate = "{@Message}";
 
@@ -83,13 +84,14 @@ public abstract class MailApp : SeqApp, ISubscribeToAsync<LogEvent>
 
     protected abstract Task SendAsync(MimeMessage message, CancellationToken cancel);
 
-    protected virtual void PrepareMessage(LogEvent logEvent, MimeMessage message) { }
+    protected virtual void PrepareMessage(JsonObject logEvent, MimeMessage message) { }
 
-    public async Task OnAsync(Event<LogEvent> evt)
+    public async Task OnAsync(string json)
     {
-        using var message = _mailMessageFactory!.FromEvent(evt.Data);
-        PrepareMessage(evt.Data, message);
-        await SendAsync(message, default);
+        var evt = JsonNode.Parse(json)?.AsObject() ?? throw new ArgumentException("Non-JSON-object data received.");
+        using var message = _mailMessageFactory!.FromEvent(evt);
+        PrepareMessage(evt, message);
+        await SendAsync(message, CancellationToken.None);
     }
         
     internal static string LoadDefaultBodyTemplate(bool bodyIsPlainText)

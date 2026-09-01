@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Nodes;
 using MimeKit;
 using MimeKit.Text;
 using Seq.Apps;
 using Seq.Mail.BuiltIns;
-using Seq.Mail.Encoding;
 using Seq.Syntax.Expressions;
 using Seq.Syntax.Expressions.Compilation;
 using Seq.Syntax.Templates;
 using Seq.Syntax.Templates.Encoding;
-using Serilog.Events;
-using Serilog.Formatting;
 
 namespace Seq.Mail;
 
@@ -40,25 +38,27 @@ class MailMessageFactory
         var mailAppNameResolver = new MailAppNameResolver(timeZoneName, dateFormat, app, host);
             
         _from = from;
-        _to = toTemplates.Select(to => CompileTemplate(to, mailAppNameResolver)).ToArray();
+        _to = [.. toTemplates.Select(to => CompileTemplate(to, mailAppNameResolver))];
         _bodyIsPlainText = bodyIsPlainText;
         _subject = CompileTemplate(subjectTemplate, mailAppNameResolver);
-        _body = CompileTemplate(bodyTemplate, mailAppNameResolver, encoder: bodyIsPlainText ? null : new TemplateOutputHtmlEncoder());
+        _body = CompileTemplate(bodyTemplate, mailAppNameResolver, encoder: bodyIsPlainText ? null : TemplateOutputEncoder.Html);
     }
 
     static ExpressionTemplate CompileTemplate(string template, NameResolver builtInNameResolver, TemplateOutputEncoder? encoder = null)
     {
-        return new ExpressionTemplate(
+        return Syntax.Compatibility.V1.TryParseTemplate(
             template,
-            nameResolver: new OrderedNameResolver(new[]
-            {
+            null,
+            new OrderedNameResolver([
                 new StaticMemberNameResolver(typeof(MailAppBuiltInFunctions)),
-                builtInNameResolver                     
-            }),
-            encoder: encoder);
+                builtInNameResolver
+            ]),
+            encoder,
+            out var result,
+            out var error) ? result : throw new ArgumentException(error);
     }
 
-    public MimeMessage FromEvent(LogEvent evt)
+    public MimeMessage FromEvent(JsonObject evt)
     {
         var subject = Format(_subject, evt)
             .Trim()
@@ -87,7 +87,7 @@ class MailMessageFactory
         return message;
     }
 
-    static string Format(ITextFormatter template, LogEvent evt)
+    static string Format(ExpressionTemplate template, JsonObject evt)
     {
         var writer = new StringWriter();
         template.Format(evt, writer);

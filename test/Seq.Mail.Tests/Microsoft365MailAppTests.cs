@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graph.Models;
 using Seq.App.Mail.Microsoft365;
-using Seq.Apps;
 using Seq.Apps.Testing.Hosting;
 using Seq.Mail.Tests.Support;
-using Serilog.Events;
 using Xunit;
 
 namespace Seq.Mail.Tests;
@@ -35,9 +32,7 @@ public class Microsoft365MailAppTests
 
         app.Attach(new TestAppHost());
 
-        var evt = Some.InformationEvent();
-
-        await app.OnAsync(new Event<LogEvent>("event-1", 123, DateTime.UtcNow, evt));
+        await app.OnAsync(Some.InformationEvent("event-1"));
 
         var (options, message) = Assert.Single(gateway.Received);
         Assert.Equal("t", options.TenantId);
@@ -45,7 +40,7 @@ public class Microsoft365MailAppTests
         Assert.Equal("s", options.ClientSecret);
         Assert.True(options.SaveToSentItems);
         Assert.Equal("f@localhost", message.From!.EmailAddress!.Address);
-        Assert.Equal(new[] { "t@localhost", "r@localhost" }, message.ToRecipients!.Select(t => t.EmailAddress!.Address));
+        Assert.Equal(["t@localhost", "r@localhost"], message.ToRecipients!.Select(t => t.EmailAddress!.Address));
         Assert.Equal("s", message.Subject);
         Assert.Equal("b", message.Body!.Content!.Trim());
         Assert.Equal(BodyType.Html, message.Body!.ContentType);

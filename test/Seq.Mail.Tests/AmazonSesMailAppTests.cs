@@ -31,9 +31,7 @@ public class AmazonSesMailAppTests
 
         app.Attach(new TestAppHost());
 
-        var evt = Some.InformationEvent();
-
-        await app.OnAsync(new Event<LogEvent>("event-1", 123, DateTime.UtcNow, evt));
+        await app.OnAsync(Some.InformationEvent("event-1"));
 
         var (options, request) = Assert.Single(gateway.Received);
         Assert.Equal("aki", options.AccessKeyId);
